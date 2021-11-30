@@ -2,7 +2,6 @@ export class SceneLoader {
 
     async loadScene(uri) {
         const scene = await this.loadJson(uri);
-        console.log(scene)
         const images = scene.textures.map(uri => this.loadImage(uri));
         const meshes = scene.meshes.map(uri => this.loadJson(uri));
         scene.textures = await Promise.all(images);

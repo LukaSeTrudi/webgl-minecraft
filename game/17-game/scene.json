@@ -1,0 +1,108 @@
+{
+  "nodes": [{
+      "type": "model",
+      "mesh": 0,
+      "texture": 1,
+      "translation": [-1, 1, -5],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "aabb": {
+        "min": [0, 0, 0],
+        "max": [1, 1, 1]
+      },
+      "collidable":true
+    },
+    {
+      "type": "model",
+      "mesh": 0,
+      "texture": 1,
+      "translation": [-1, 0, -5],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1],
+      "aabb": {
+        "min": [0, 0, 0],
+        "max": [1, 1, 1]
+      },
+      "collidable":true
+    },
+    {
+      "type": "player",
+      "translation": [0, 0, 0],
+      "extra": "player",
+      "aabb": {
+        "min": [0, 0, 0],
+        "max": [1, 2, 1]
+      },
+      "collidable":true,
+      "children": [{
+          "type": "model",
+          "extra": "head",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.25, 1.2, 0.25],
+          "rotation": [0, 0, 0],
+          "scale": [0.5, 0.5, 0.5],
+          "children": [{
+            "type": "camera",
+            "extra": "camera",
+            "translation": [0.5, 3, 9],
+            "rotation": [0, 0, 0],
+            "aspect": 1,
+            "fov": 1.0,
+            "near": 0.01,
+            "far": 100
+          }]
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.2, 0.5, 0.3],
+          "rotation": [0, 0, 0],
+          "scale": [0.6, 0.7, 0.4]
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.2, 0, 0.35],
+          "rotation": [0, 0, 0],
+          "scale": [0.3, 0.5, 0.3]
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.5, 0, 0.35],
+          "rotation": [0, 0, 0],
+          "scale": [0.3, 0.5, 0.3]
+        },
+
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0, 0.5, 0.35],
+          "rotation": [0, 0, 0],
+          "scale": [0.3, 0.7, 0.3]
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.7, 0.5, 0.35],
+          "rotation": [0, 0, 0],
+          "scale": [0.3, 0.7, 0.3]
+        }
+      ]
+    }
+  ],
+  "textures": [
+    "../../common/images/crate-diffuse.png",
+    "../../common/images/grass.png"
+  ],
+  "meshes": [
+    "../../common/models/cube.json",
+    "../../common/models/pyramid.json"
+  ]
+}

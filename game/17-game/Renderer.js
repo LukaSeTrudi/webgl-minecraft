@@ -24,13 +24,15 @@ export class Renderer {
 
     prepare(scene) {
         scene.nodes.forEach(node => {
-            node.gl = {};
-            if (node.mesh) {
-                Object.assign(node.gl, this.createModel(node.mesh));
-            }
-            if (node.image) {
-                node.gl.texture = this.createTexture(node.image);
-            }
+            node.traverse(_node => {
+              _node.gl = {};
+              if (_node.mesh) {
+                Object.assign(_node.gl, this.createModel(_node.mesh));
+              }
+              if (_node.image) {
+                _node.gl.texture = this.createTexture(_node.image);
+              }
+            })
         });
     }
 
@@ -54,7 +56,7 @@ export class Renderer {
             node => {
                 matrixStack.push(mat4.clone(matrix));
                 mat4.mul(matrix, matrix, node.transform);
-                if (node.gl.vao) {
+                if (node.gl && node.gl.vao) {
                     gl.bindVertexArray(node.gl.vao);
                     gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
                     gl.activeTexture(gl.TEXTURE0);

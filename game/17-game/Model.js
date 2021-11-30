@@ -1,4 +1,4 @@
-import { Node } from '../core/node.js';
+import { Node } from './Node.js';
 
 export class Model extends Node {
 

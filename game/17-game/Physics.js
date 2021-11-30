@@ -12,7 +12,7 @@ export class Physics {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateTransform();
                 this.scene.traverse(other => {
-                    if (node !== other) {
+                    if (node !== other && (node.collidable && other.collidable)) {
                         this.resolveCollision(node, other);
                     }
                 });
@@ -51,7 +51,6 @@ export class Physics {
             min: minb,
             max: maxb
         });
-
         if (!isColliding) {
             return;
         }

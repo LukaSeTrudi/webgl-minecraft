@@ -1,4 +1,5 @@
 import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
+import { Player } from './Player.js';
 
 export class Physics {
 
@@ -34,15 +35,18 @@ export class Physics {
         // Update bounding boxes with global translation.
         const ta = a.getGlobalTransform();
         const tb = b.getGlobalTransform();
-
-        const posa = mat4.getTranslation(vec3.create(), ta);
+        
+        let posa = mat4.getTranslation(vec3.create(), ta);
         const posb = mat4.getTranslation(vec3.create(), tb);
+
+        if(a instanceof Player) {
+            posa = a.translation;
+        }
 
         const mina = vec3.add(vec3.create(), posa, a.aabb.min);
         const maxa = vec3.add(vec3.create(), posa, a.aabb.max);
         const minb = vec3.add(vec3.create(), posb, b.aabb.min);
         const maxb = vec3.add(vec3.create(), posb, b.aabb.max);
-
         // Check if there is collision.
         const isColliding = this.aabbIntersection({
             min: mina,
@@ -54,7 +58,6 @@ export class Physics {
         if (!isColliding) {
             return;
         }
-
         // Move node A minimally to avoid collision.
         const diffa = vec3.sub(vec3.create(), maxb, mina);
         const diffb = vec3.sub(vec3.create(), maxa, minb);

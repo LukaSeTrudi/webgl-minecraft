@@ -3,35 +3,32 @@
       "type": "model",
       "mesh": 0,
       "texture": 1,
-      "translation": [-1, 1, -5],
-      "rotation": [0, 0, 0],
-      "scale": [1, 1, 1],
-      "aabb": {
-        "min": [0, 0, 0],
-        "max": [1, 1, 1]
-      },
+      "translation": [0, 0, 0],
       "collidable":true
     },
     {
       "type": "model",
       "mesh": 0,
       "texture": 1,
-      "translation": [-1, 0, -5],
+      "translation": [-5, 0, 0],
       "rotation": [0, 0, 0],
-      "scale": [1, 1, 1],
-      "aabb": {
-        "min": [0, 0, 0],
-        "max": [1, 1, 1]
-      },
-      "collidable":true
+      "scale": [10, 0.01, 0.01]
+    },
+    {
+      "type": "model",
+      "mesh": 0,
+      "texture": 0,
+      "translation": [0, 0, -5],
+      "rotation": [0, 0, 0],
+      "scale": [0.01, 0.01, 10]
     },
     {
       "type": "player",
       "translation": [0, 0, 0],
       "extra": "player",
       "aabb": {
-        "min": [0, 0, 0],
-        "max": [1, 2, 1]
+        "min": [-0.5, -0.5, -0.5],
+        "max": [0.5, 1.5, 0.5]
       },
       "collidable":true,
       "children": [{
@@ -39,16 +36,16 @@
           "extra": "head",
           "mesh": 0,
           "texture": 1,
-          "translation": [0.25, 1.2, 0.25],
+          "translation": [0, 1.05, 0],
           "rotation": [0, 0, 0],
           "scale": [0.5, 0.5, 0.5],
           "children": [{
             "type": "camera",
             "extra": "camera",
-            "translation": [0.5, 3, 9],
+            "translation": [0.5, 2, 8],
             "rotation": [0, 0, 0],
             "aspect": 1,
-            "fov": 1.0,
+            "fov": 1.5,
             "near": 0.01,
             "far": 100
           }]
@@ -57,42 +54,41 @@
           "type": "model",
           "mesh": 0,
           "texture": 1,
-          "translation": [0.2, 0.5, 0.3],
+          "translation": [0, 0.4, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.6, 0.7, 0.4]
+          "scale": [0.6, 0.8, 0.4]
         },
         {
           "type": "model",
           "mesh": 0,
           "texture": 1,
-          "translation": [0.2, 0, 0.35],
+          "translation": [-0.15, -0.2, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.3, 0.5, 0.3]
+          "scale": [0.3, 0.6, 0.3]
         },
         {
           "type": "model",
           "mesh": 0,
           "texture": 1,
-          "translation": [0.5, 0, 0.35],
+          "translation": [0.15, -0.2, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.3, 0.5, 0.3]
-        },
-
-        {
-          "type": "model",
-          "mesh": 0,
-          "texture": 1,
-          "translation": [0, 0.5, 0.35],
-          "rotation": [0, 0, 0],
-          "scale": [0.3, 0.7, 0.3]
+          "scale": [0.3, 0.6, 0.3]
         },
         {
           "type": "model",
           "mesh": 0,
           "texture": 1,
-          "translation": [0.7, 0.5, 0.35],
+          "translation": [-0.4, 0.4, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.3, 0.7, 0.3]
+          "scale": [0.2, 0.8, 0.3]
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 1,
+          "translation": [0.4, 0.4, 0],
+          "rotation": [0, 0, 0],
+          "scale": [0.2, 0.8, 0.3]
         }
       ]
     }

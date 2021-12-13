@@ -21,11 +21,10 @@ export class Camera extends Node {
     switchPerson() {
       this.firstPerson = !this.firstPerson;
       if(this.firstPerson) {
-        this.translation = [0,0,0];
+        this.translation = [0.5,1,-1];
       } else {
-        this.translation = [0.5, 3, 9];
+        this.translation = [0.5, 2, 4];
       }
-      console.log(this.translation);
       this.updateTransform();
     }
 

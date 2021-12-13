@@ -6,7 +6,6 @@ export class Node {
 
     constructor(options) {
         Utils.init(this, Node.defaults, options);
-
         this.transform = mat4.create();
         this.updateTransform();
 
@@ -20,7 +19,8 @@ export class Node {
         const q = quat.fromEuler(quat.create(), ...degrees);
         const v = vec3.clone(this.translation);
         const s = vec3.clone(this.scale);
-        mat4.fromRotationTranslationScale(t, q, v, s);
+        const origin = vec3.clone([0.5,0.5,0.5])
+        mat4.fromRotationTranslationScaleOrigin(t, q, v, s, origin);
     }
 
     getGlobalTransform() {
@@ -64,8 +64,8 @@ Node.defaults = {
     rotation: [0, 0, 0],
     scale: [1, 1, 1],
     aabb: {
-        min: [0, 0, 0],
-        max: [0, 0, 0],
+        min: [-0.5, -0.5, -0.5],
+        max: [0.5, 0.5, 0.5],
     },
     extra: null,
     collidable: false,

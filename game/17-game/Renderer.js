@@ -51,12 +51,12 @@ export class Renderer {
         mat4.invert(viewMatrix, viewMatrix);
         mat4.copy(matrix, viewMatrix);
         gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
-
+        
         scene.traverse(
             node => {
                 matrixStack.push(mat4.clone(matrix));
                 mat4.mul(matrix, matrix, node.transform);
-                if (node.gl && node.gl.vao) {
+                if (node.gl && node.gl.vao && node.visible) {
                     gl.bindVertexArray(node.gl.vao);
                     gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
                     gl.activeTexture(gl.TEXTURE0);
@@ -104,7 +104,7 @@ export class Renderer {
         return WebGL.createTexture(gl, {
             image : texture,
             min   : gl.NEAREST,
-            mag   : gl.NEAREST
+            mag   : gl.NEAREST,
         });
     }
 

@@ -5,12 +5,15 @@ import { Application } from "../../common/engine/Application.js";
 import { Renderer } from "./Renderer.js";
 import { Physics } from "./Physics.js";
 import { Camera } from "./Camera.js";
-import { SceneLoader } from "./SceneLoader.js";
+import { SceneLoader } from "./loaders/SceneLoader.js";
 import { SceneBuilder } from "./SceneBuilder.js";
+import { BlockLoader } from './loaders/BlockLoader.js';
+import { ItemLoader } from "./loaders/ItemLoader.js";
 import { Player } from "./Player.js";
+import { Block } from "./world/Block.js";
 
 class App extends Application {
-  start() {
+  async start() {
     const gl = this.gl;
 
     this.renderer = new Renderer(gl);
@@ -24,7 +27,9 @@ class App extends Application {
     this.loadGUI();
     this.pointerlockchangeHandler = this.pointerlockchangeHandler.bind(this);
     document.addEventListener("pointerlockchange", this.pointerlockchangeHandler);
-
+    
+    this.blocks = await new BlockLoader().loadBlocks("/game/17-game/structure/blocks.json");
+    this.items = await new ItemLoader().loadItems("/game/17-game/structure/items.json", this.blocks);
     this.load("/game/17-game/scene.json");
   }
 
@@ -49,8 +54,8 @@ class App extends Application {
     const scene = await new SceneLoader().loadScene(uri);
     const builder = new SceneBuilder(scene);
     this.scene = builder.build();
+    builder.proceduralBuild(this.scene, this.blocks);
     this.physics = new Physics(this.scene);
-
     this.camera = null;
     this.player = null;
     this.head = null;
@@ -66,6 +71,10 @@ class App extends Application {
         this.head = node;
       }
     });
+    this.scene.addNode(this.blocks[0]);
+    console.log(this.scene)
+    this.camera.head = this.head;
+    this.camera.switchPerson();
     this.player.head = this.head;
     this.player.camera = this.camera;
     this.camera.aspect = this.aspect;
@@ -105,11 +114,6 @@ class App extends Application {
 
   render() {
     if (this.scene) {
-      this.scene.traverse((node) => {
-        if (node.extra == "head") {
-          //console.log(node.rotation)
-        }
-      });
       this.renderer.render(this.scene, this.camera);
     }
   }

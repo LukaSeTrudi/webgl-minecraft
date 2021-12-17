@@ -19,7 +19,6 @@ export class Player extends Node {
   }
   update(dt) {
     const c = this;
-
     const forward = vec3.set(vec3.create(),
       -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
     const right = vec3.set(vec3.create(),

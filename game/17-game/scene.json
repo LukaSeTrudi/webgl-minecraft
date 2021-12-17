@@ -2,29 +2,13 @@
   "nodes": [{
       "type": "model",
       "mesh": 0,
-      "texture": 1,
-      "translation": [0, 0, 0],
+      "texture": 2,
+      "translation": [5, 1, 0],
       "collidable":true
     },
     {
-      "type": "model",
-      "mesh": 0,
-      "texture": 1,
-      "translation": [-5, 0, 0],
-      "rotation": [0, 0, 0],
-      "scale": [10, 0.01, 0.01]
-    },
-    {
-      "type": "model",
-      "mesh": 0,
-      "texture": 0,
-      "translation": [0, 0, -5],
-      "rotation": [0, 0, 0],
-      "scale": [0.01, 0.01, 10]
-    },
-    {
       "type": "player",
-      "translation": [6, 0, 0],
+      "translation": [2, 0, 0],
       "extra": "player",
       "aabb": {
         "min": [-0.4, -0.5, -0.4],
@@ -35,15 +19,13 @@
           "type": "model",
           "extra": "head",
           "mesh": 0,
-          "texture": 1,
+          "texture": 2,
           "translation": [0, 1.05, 0],
           "rotation": [0, 0, 0],
           "scale": [0.5, 0.5, 0.5],
           "children": [{
             "type": "camera",
             "extra": "camera",
-            "translation": [0.5, 2, 8],
-            "rotation": [0, 0, 0],
             "aspect": 1,
             "fov": 1.5,
             "near": 0.01,
@@ -95,7 +77,8 @@
   ],
   "textures": [
     "../../common/images/crate-diffuse.png",
-    "../../common/images/grass.png"
+    "../../common/images/grass.png",
+    "../../common/textures/bitmap.png"
   ],
   "meshes": [
     "../../common/models/cube.json",

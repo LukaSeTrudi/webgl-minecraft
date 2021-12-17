@@ -69,4 +69,5 @@ Node.defaults = {
     },
     extra: null,
     collidable: false,
+    visible: true,
 };

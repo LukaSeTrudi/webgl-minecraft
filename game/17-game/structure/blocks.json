@@ -4,5 +4,29 @@
     "name": "Grass",
     "texture": "grass.png",
     "durability": 100
+  },
+  {
+    "id": 1,
+    "name": "Oak Log",
+    "texture": "oak_log.png",
+    "durability": 100
+  },
+  {
+    "id": 2,
+    "name": "Oak Plank",
+    "texture": "oak_plank.png",
+    "durability": 100
+  },
+  {
+    "id": 3,
+    "name": "Sand",
+    "texture": "sand.png",
+    "durability": 100
+  },
+  {
+    "id": 4,
+    "name": "Stone",
+    "texture": "stone.png",
+    "durability": 100
   }
 ]

@@ -9,7 +9,7 @@ export class Renderer {
     constructor(gl) {
         this.gl = gl;
 
-        gl.clearColor(1, 1, 1, 1);
+        gl.clearColor(0.8, 1, 1, 1);
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
 
@@ -105,6 +105,8 @@ export class Renderer {
             image : texture,
             min   : gl.NEAREST,
             mag   : gl.NEAREST,
+            wrapS: gl.CLAMP_TO_EDGE,
+            wrapT: gl.CLAMP_TO_EDGE,
         });
     }
 

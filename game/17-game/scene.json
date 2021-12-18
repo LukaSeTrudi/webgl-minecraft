@@ -19,7 +19,7 @@
           "type": "model",
           "extra": "head",
           "mesh": 0,
-          "texture": 2,
+          "texture": 6,
           "translation": [0, 1.05, 0],
           "rotation": [0, 0, 0],
           "scale": [0.5, 0.5, 0.5],
@@ -35,7 +35,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 1,
+          "texture": 3,
           "translation": [0, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.6, 0.8, 0.4]
@@ -43,7 +43,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 1,
+          "texture": 5,
           "translation": [-0.15, -0.2, 0],
           "rotation": [0, 0, 0],
           "scale": [0.3, 0.6, 0.3]
@@ -51,7 +51,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 1,
+          "texture": 5,
           "translation": [0.15, -0.2, 0],
           "rotation": [0, 0, 0],
           "scale": [0.3, 0.6, 0.3]
@@ -59,7 +59,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 1,
+          "texture": 4,
           "translation": [-0.4, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.2, 0.8, 0.3]
@@ -67,7 +67,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 1,
+          "texture": 4,
           "translation": [0.4, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.2, 0.8, 0.3]
@@ -78,7 +78,11 @@
   "textures": [
     "../../common/images/crate-diffuse.png",
     "../../common/images/grass.png",
-    "../../common/textures/bitmap.png"
+    "../../common/textures/bitmap.png",
+    "../../common/textures/body.png",
+    "../../common/textures/hand.png",
+    "../../common/textures/leg.png",
+    "../../common/textures/head.png"
   ],
   "meshes": [
     "../../common/models/cube.json",

@@ -46,28 +46,18 @@ export class SceneBuilder {
   }
 
   proceduralBuild(scene, blocks) {
-    let nodes = 10;
+    let nodes = 50;
     noise.seed(Math.random());
     let grid = [];
     const blockMesh = blocks[0].mesh;
     const blockTexture = blocks[0].image;
     for(let i = 0; i < nodes; i++) {
-      let row = [];
       for(let j = 0; j < nodes; j++) {
-        let value = Math.floor(noise.perlin3(i, Math.random(), j)*3);
-        
-        for(let x=0; x < 4; x++) {
-          for(let y=0; y <4; y++) {
-            let block = new Block(blockMesh, blockTexture, {translation: [i*4+x, value, j*4+y]});
-            scene.addNode(block);
-          }
-        }
-        row.push(value);
+        let value = Math.floor(noise.perlin2(i/10,j/10)*4);
+        let block = new Block(blockMesh, blockTexture, {translation: [i, value, j]});
+        scene.addNode(block);
       }
-      grid.push(row);
     }
-
-    
 
   }
 

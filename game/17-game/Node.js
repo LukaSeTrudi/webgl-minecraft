@@ -56,7 +56,6 @@ export class Node {
             after(this);
         }
     }
-
 }
 
 Node.defaults = {

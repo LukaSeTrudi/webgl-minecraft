@@ -1,57 +1,54 @@
-import {
-  Node
-} from './Node.js';
-import {
-  vec3,
-  mat4
-} from '../../lib/gl-matrix-module.js';
+import { Node } from "./Node.js";
+import { vec3, mat4 } from "../../lib/gl-matrix-module.js";
 
-import { Utils } from './Utils.js';
+import { Utils } from "./Utils.js";
 export class Player extends Node {
-
   constructor(options) {
     super(options);
     Utils.init(this, this.constructor.defaults, options);
+    this.grounded = false;
     this.mousemoveHandler = this.mousemoveHandler.bind(this);
     this.keydownHandler = this.keydownHandler.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
     this.keys = {};
   }
+
+  distanceTo(other) {
+    // Block
+    return Math.sqrt(Math.pow(this.translation[0] - other.translation[0], 2) + Math.pow(this.translation[1] - other.translation[1], 2) + Math.pow(this.translation[2] - other.translation[2], 2));
+  }
+
   update(dt) {
     const c = this;
-    const forward = vec3.set(vec3.create(),
-      -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
-    const right = vec3.set(vec3.create(),
-      Math.cos(c.rotation[1]), 0, -Math.sin(c.rotation[1]));
-
+    const forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
+    const right = vec3.set(vec3.create(), Math.cos(c.rotation[1]), 0, -Math.sin(c.rotation[1]));
+    const up = vec3.set(vec3.create(), 0, this.flySpeed, 0);
     // 1: add movement acceleration
     let acc = vec3.create();
-    if (this.keys['KeyW']) {
+    if (this.keys["KeyW"]) {
       vec3.add(acc, acc, forward);
     }
-    if (this.keys['KeyS']) {
+    if (this.keys["KeyS"]) {
       vec3.sub(acc, acc, forward);
     }
-    if (this.keys['KeyD']) {
+    if (this.keys["KeyD"]) {
       vec3.add(acc, acc, right);
     }
-    if (this.keys['KeyA']) {
+    if (this.keys["KeyA"]) {
       vec3.sub(acc, acc, right);
     }
-
-    if(this.keys['Digit5']) {
+    if (this.keys["Digit5"]) {
       this.camera.switchPerson();
-      this.keys['Digit5'] = false;
+      this.keys["Digit5"] = false;
     }
 
+    c.velocity[1] = 0;
+    
     // 2: update velocity
     vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
 
     // 3: if no movement, apply friction
-    if (!this.keys['KeyW'] &&
-      !this.keys['KeyS'] &&
-      !this.keys['KeyD'] &&
-      !this.keys['KeyA']) {
+    if (!this.keys["KeyW"] && !this.keys["KeyS"] && !this.keys["KeyD"] && !this.keys["KeyA"] && c.velocity[1] <= 0) {
       vec3.scale(c.velocity, c.velocity, 1 - c.friction);
     }
 
@@ -60,18 +57,27 @@ export class Player extends Node {
     if (len > c.maxSpeed) {
       vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
     }
+    if(this.keys["KeyF"]) {
+      vec3.scale(c.velocity,c.velocity,2);
+    }
+    if (this.keys["Space"]) {
+      c.velocity[1] = this.flySpeed;
+    }
+    if(this.keys["ShiftLeft"]) {
+      c.velocity[1] = -this.flySpeed;
+    }
   }
 
   enableCamera() {
-    document.addEventListener('mousemove', this.mousemoveHandler);
-    document.addEventListener('keydown', this.keydownHandler);
-    document.addEventListener('keyup', this.keyupHandler);
+    document.addEventListener("mousemove", this.mousemoveHandler);
+    document.addEventListener("keydown", this.keydownHandler);
+    document.addEventListener("keyup", this.keyupHandler);
   }
 
   disableCamera() {
-    document.removeEventListener('mousemove', this.mousemoveHandler);
-    document.removeEventListener('keydown', this.keydownHandler);
-    document.removeEventListener('keyup', this.keyupHandler);
+    document.removeEventListener("mousemove", this.mousemoveHandler);
+    document.removeEventListener("keydown", this.keydownHandler);
+    document.removeEventListener("keyup", this.keyupHandler);
 
     for (let key in this.keys) {
       this.keys[key] = false;
@@ -89,8 +95,8 @@ export class Player extends Node {
     const twopi = pi * 2;
     const halfpi = pi / 2;
 
-    if (c.head.rotation[0] > halfpi/4) {
-      c.head.rotation[0] = halfpi/4;
+    if (c.head.rotation[0] > halfpi / 4) {
+      c.head.rotation[0] = halfpi / 4;
     }
     if (c.head.rotation[0] < -halfpi) {
       c.head.rotation[0] = -halfpi;
@@ -108,9 +114,10 @@ export class Player extends Node {
   }
 }
 Player.defaults = {
-  velocity: [0, 0, 0],
+  velocity: [0, -1, 0],
   mouseSensitivity: 0.002,
-  maxSpeed: 3,
+  maxSpeed: 7,
+  flySpeed: 8,
   friction: 0.2,
-  acceleration: 20
-}
+  acceleration: 20,
+};

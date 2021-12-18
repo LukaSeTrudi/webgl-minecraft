@@ -1,113 +1,126 @@
-import { mat4 } from '../../lib/gl-matrix-module.js';
+import { mat4 } from "../../lib/gl-matrix-module.js";
 
-import { WebGL } from '../../common/engine/WebGL.js';
-
-import { shaders } from './shaders.js';
+import { WebGL } from "../../common/engine/WebGL.js";
+import { Block } from "./world/Block.js";
+import { shaders } from "./shaders.js";
 
 export class Renderer {
+  constructor(gl) {
+    this.gl = gl;
 
-    constructor(gl) {
-        this.gl = gl;
+    gl.clearColor(0.8, 1, 1, 1);
+    
+    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE);
 
-        gl.clearColor(0.8, 1, 1, 1);
-        gl.enable(gl.DEPTH_TEST);
-        gl.enable(gl.CULL_FACE);
+    this.programs = WebGL.buildPrograms(gl, shaders);
 
-        this.programs = WebGL.buildPrograms(gl, shaders);
+    this.defaultTexture = WebGL.createTexture(gl, {
+      width: 1,
+      height: 1,
+      data: new Uint8Array([255, 255, 255, 255]),
+    });
+  }
 
-        this.defaultTexture = WebGL.createTexture(gl, {
-            width  : 1,
-            height : 1,
-            data   : new Uint8Array([255, 255, 255, 255])
-        });
+  prepare(scene) {
+    scene.nodes.forEach((node) => {
+      node.traverse((_node) => {
+        _node.gl = {};
+        if (_node.mesh) {
+          Object.assign(_node.gl, this.createModel(_node.mesh));
+        }
+        if (_node.image) {
+          _node.gl.texture = this.createTexture(_node.image);
+        }
+      });
+    });
+  }
+
+  prepareNode(node) {
+    if (!node.gl) {
+      node.gl = {};
+      if (node.mesh) {
+        Object.assign(node.gl, this.createModel(node.mesh));
+      }
+      if (node.image) {
+        node.gl.texture = this.createTexture(node.image);
+      }
     }
+  }
 
-    prepare(scene) {
-        scene.nodes.forEach(node => {
-            node.traverse(_node => {
-              _node.gl = {};
-              if (_node.mesh) {
-                Object.assign(_node.gl, this.createModel(_node.mesh));
-              }
-              if (_node.image) {
-                _node.gl.texture = this.createTexture(_node.image);
-              }
-            })
-        });
-    }
+  render(scene, camera) {
+    const gl = this.gl;
+    
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    render(scene, camera) {
-        const gl = this.gl;
+    const program = this.programs.simple;
+    gl.useProgram(program.program);
 
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    let matrix = mat4.create();
+    let matrixStack = [];
 
-        const program = this.programs.simple;
-        gl.useProgram(program.program);
+    const viewMatrix = camera.getGlobalTransform();
+    mat4.invert(viewMatrix, viewMatrix);
+    mat4.copy(matrix, viewMatrix);
+    gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
 
-        let matrix = mat4.create();
-        let matrixStack = [];
+    scene.traverse(
+      (node) => {
+        matrixStack.push(mat4.clone(matrix));
+        mat4.mul(matrix, matrix, node.transform);
+        this.prepareNode(node);
 
-        const viewMatrix = camera.getGlobalTransform();
-        mat4.invert(viewMatrix, viewMatrix);
-        mat4.copy(matrix, viewMatrix);
-        gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
-        
-        scene.traverse(
-            node => {
-                matrixStack.push(mat4.clone(matrix));
-                mat4.mul(matrix, matrix, node.transform);
-                if (node.gl && node.gl.vao && node.visible) {
-                    gl.bindVertexArray(node.gl.vao);
-                    gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
-                    gl.activeTexture(gl.TEXTURE0);
-                    gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
-                    gl.uniform1i(program.uniforms.uTexture, 0);
-                    gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
-                }
-            },
-            node => {
-                matrix = matrixStack.pop();
-            }
-        );
-    }
+        if (node.gl && node.gl.vao && node.visible) {
+          gl.bindVertexArray(node.gl.vao);
+          gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
+          gl.uniform1i(program.uniforms.uTexture, 0);
+          gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
+        }
+      },
+      (node) => {
+        matrix = matrixStack.pop();
+      }
+    );
+  }
 
-    createModel(model) {
-        const gl = this.gl;
+  createModel(model) {
+    const gl = this.gl;
 
-        const vao = gl.createVertexArray();
-        gl.bindVertexArray(vao);
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(0);
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texcoords), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(1);
-        gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texcoords), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(1);
+    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(2);
-        gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(2);
+    gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0);
 
-        const indices = model.indices.length;
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.indices), gl.STATIC_DRAW);
+    const indices = model.indices.length;
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.indices), gl.STATIC_DRAW);
+    
+    return { vao, indices };
+  }
 
-        return { vao, indices };
-    }
-
-    createTexture(texture) {
-        const gl = this.gl;
-        return WebGL.createTexture(gl, {
-            image : texture,
-            min   : gl.NEAREST,
-            mag   : gl.NEAREST,
-            wrapS: gl.CLAMP_TO_EDGE,
-            wrapT: gl.CLAMP_TO_EDGE,
-        });
-    }
-
+  createTexture(texture) {
+    const gl = this.gl;
+    return WebGL.createTexture(gl, {
+      image: texture,
+      min: gl.NEAREST,
+      mag: gl.NEAREST,
+      wrapS: gl.CLAMP_TO_EDGE,
+      wrapT: gl.CLAMP_TO_EDGE,
+    });
+  }
 }

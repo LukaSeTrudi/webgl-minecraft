@@ -54,7 +54,7 @@ class App extends Application {
     const scene = await new SceneLoader().loadScene(uri);
     const builder = new SceneBuilder(scene);
     this.scene = builder.build();
-    builder.proceduralBuild(this.scene, this.blocks);
+    this.chunkLoader = builder.proceduralBuild(this.blocks);
     this.physics = new Physics(this.scene);
     this.camera = null;
     this.player = null;
@@ -71,8 +71,8 @@ class App extends Application {
         this.head = node;
       }
     });
-    this.scene.addNode(this.blocks[0]);
-    console.log(this.scene)
+    
+    this.scene.addNode(this.blocks[4]);
     this.camera.head = this.head;
     this.camera.switchPerson();
     this.player.head = this.head;
@@ -81,11 +81,11 @@ class App extends Application {
     this.camera.updateProjection();
     this.renderer.prepare(this.scene);
   }
-
+  
   enableCamera() {
     this.canvas.requestPointerLock();
   }
-
+  
   pointerlockchangeHandler() {
     if (!this.camera) {
       return;
@@ -96,28 +96,28 @@ class App extends Application {
       this.player.disableCamera();
     }
   }
-
+  
   update() {
     const t = (this.time = Date.now());
     const dt = (this.time - this.startTime) * 0.001;
     this.startTime = this.time;
-
+    
     if (this.player) {
       this.player.update(dt);
+      this.chunkLoader.changeActiveChunk(this.scene, this.player.translation[0],this.player.translation[2]);
       this.updateGUI()
-
     }
     if (this.physics) {
       this.physics.update(dt);
     }
   }
-
+  
   render() {
     if (this.scene) {
       this.renderer.render(this.scene, this.camera);
     }
   }
-
+  
   resize() {
     const w = this.canvas.clientWidth;
     const h = this.canvas.clientHeight;

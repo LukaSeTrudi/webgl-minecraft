@@ -1,5 +1,6 @@
 import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
 import { Player } from './Player.js';
+import { Block } from './world/Block.js';
 
 export class Physics {
 
@@ -12,11 +13,12 @@ export class Physics {
             if (node.velocity) {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateTransform();
-                this.scene.traverse(other => {
-                    if (node !== other && (node.collidable && other.collidable)) {
+                node.grounded = false;
+                this.scene.nodes.forEach(other => {
+                    if(other instanceof Block && node.distanceTo(other) <= 2) {
                         this.resolveCollision(node, other);
                     }
-                });
+                })
             }
         });
     }
@@ -71,6 +73,7 @@ export class Physics {
         if (diffa[1] >= 0 && diffa[1] < minDiff) {
             minDiff = diffa[1];
             minDirection = [0, minDiff, 0];
+            a.grounded = true;
         }
         if (diffa[2] >= 0 && diffa[2] < minDiff) {
             minDiff = diffa[2];

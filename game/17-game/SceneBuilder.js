@@ -7,6 +7,7 @@ import { Camera } from "./Camera.js";
 import { Scene } from "./Scene.js";
 import { Player } from "./Player.js";
 import { Block } from "./world/Block.js";
+import { ChunkLoader } from "./chunks/ChunkLoader.js";
 
 export class SceneBuilder {
   constructor(spec) {
@@ -45,20 +46,30 @@ export class SceneBuilder {
     return scene;
   }
 
-  proceduralBuild(scene, blocks) {
+  proceduralBuild(blocks) {
     let nodes = 50;
-    noise.seed(Math.random());
+    noise.seed(5);
     let grid = [];
-    const blockMesh = blocks[0].mesh;
-    const blockTexture = blocks[0].image;
-    for(let i = 0; i < nodes; i++) {
-      for(let j = 0; j < nodes; j++) {
-        let value = Math.floor(noise.perlin2(i/10,j/10)*4);
-        let block = new Block(blockMesh, blockTexture, {translation: [i, value, j]});
-        scene.addNode(block);
+    let cl = new ChunkLoader();
+    const grassMesh = blocks[0].mesh;
+    const grassTexture = blocks[0].image;
+    const stoneMesh = blocks[4].mesh;
+    const stoneTexture = blocks[4].image
+
+    for(let i = -nodes; i < nodes; i++) {
+      for(let j = -nodes; j < nodes; j++) {
+        let value = Math.floor(noise.perlin2(i/10,j/10)*4) + 3;
+        for(let y = 0; y < value; y++) {
+          let block = new Block(stoneMesh, stoneTexture, {translation: [i, y, j]});
+          cl.optimizeBlock(block);
+          cl.insertBlock(block)
+        }
+        let block = new Block(grassMesh, grassTexture, {translation: [i, value, j]});
+        cl.optimizeBlock(block);
+        cl.insertBlock(block)
       }
     }
-
+    return cl;
   }
 
 }

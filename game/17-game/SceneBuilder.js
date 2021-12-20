@@ -47,29 +47,29 @@ export class SceneBuilder {
   }
 
   proceduralBuild(blocks) {
-    let nodes = 50;
+    let nodes = 15;
     noise.seed(5);
     let grid = [];
     let cl = new ChunkLoader();
     const grassMesh = blocks[0].mesh;
     const grassTexture = blocks[0].image;
     const stoneMesh = blocks[4].mesh;
-    const stoneTexture = blocks[4].image
+    const stoneTexture = blocks[4].image;
 
-    for(let i = -nodes; i < nodes; i++) {
-      for(let j = -nodes; j < nodes; j++) {
-        let value = Math.floor(noise.perlin2(i/10,j/10)*4) + 3;
-        for(let y = 0; y < value; y++) {
-          let block = new Block(stoneMesh, stoneTexture, {translation: [i, y, j]});
+    for (let i = -nodes; i < nodes; i++) {
+      for (let j = -nodes; j < nodes; j++) {
+        let value = Math.floor(noise.perlin2(i / 10, j / 10) * 4) + 15;
+        for (let y = 0; y < value; y++) {
+          let block = new Block(stoneMesh, stoneTexture, { translation: [i, y, j] });
           cl.optimizeBlock(block);
-          cl.insertBlock(block)
+          cl.insertBlock(block);
         }
-        let block = new Block(grassMesh, grassTexture, {translation: [i, value, j]});
+        let block = new Block(grassMesh, grassTexture, { translation: [i, value, j] });
         cl.optimizeBlock(block);
-        cl.insertBlock(block)
+        cl.insertBlock(block);
       }
+      console.log(i);
     }
     return cl;
   }
-
 }

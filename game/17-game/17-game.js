@@ -55,6 +55,7 @@ class App extends Application {
     const builder = new SceneBuilder(scene);
     this.scene = builder.build();
     this.chunkLoader = builder.proceduralBuild(this.blocks);
+    this.chunkLoader.chunks.forEach(chunk => chunk.blocks.forEach(block => this.scene.addNode(block)));
     this.physics = new Physics(this.scene);
     this.camera = null;
     this.player = null;

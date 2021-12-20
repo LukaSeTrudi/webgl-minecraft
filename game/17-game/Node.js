@@ -9,6 +9,7 @@ export class Node {
         this.transform = mat4.create();
         this.updateTransform();
 
+        this.chunkVisible = true;
         this.children = [];
         this.parent = null;
     }

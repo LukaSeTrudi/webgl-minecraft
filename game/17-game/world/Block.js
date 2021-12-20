@@ -23,6 +23,11 @@ export class Block extends Model {
     if(i !== -1) {
       this.faces[i] = val;
     }
+    if(this.faces.some(x => x == true)) {
+      this.visible = true;
+    } else {
+      this.visible = false;
+    }
   };
 
   updateMesh() {

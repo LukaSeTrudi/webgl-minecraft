@@ -18,9 +18,9 @@ export class ChunkLoader {
       this.activeChunk = chunk;
       this.chunks.forEach((chunk) => {
         if (Math.abs(this.activeChunk.x - chunk.x) < 2 * Chunk.SIZE && Math.abs(this.activeChunk.z - chunk.z) < 2 * Chunk.SIZE) {
-          chunk.blocks.forEach((block) => scene.addNode(block));
+          chunk.blocks.forEach((block) => block.chunkVisible = true); 
         } else {
-          chunk.blocks.forEach((block) => scene.removeNode(block));
+          chunk.blocks.forEach((block) => block.chunkVisible = false);
         }
       });
     }

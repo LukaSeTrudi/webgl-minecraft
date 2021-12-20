@@ -9,7 +9,7 @@ export class Renderer {
     this.gl = gl;
 
     gl.clearColor(0.8, 1, 1, 1);
-    
+
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
 
@@ -50,7 +50,7 @@ export class Renderer {
 
   render(scene, camera) {
     const gl = this.gl;
-    
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const program = this.programs.simple;
@@ -70,7 +70,7 @@ export class Renderer {
         mat4.mul(matrix, matrix, node.transform);
         this.prepareNode(node);
 
-        if (node.gl && node.gl.vao && node.visible) {
+        if (node.gl && node.gl.vao) {
           gl.bindVertexArray(node.gl.vao);
           gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
           gl.activeTexture(gl.TEXTURE0);
@@ -109,7 +109,7 @@ export class Renderer {
     const indices = model.indices.length;
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.indices), gl.STATIC_DRAW);
-    
+
     return { vao, indices };
   }
 

@@ -2,6 +2,7 @@ export class ItemLoader {
 
   async loadItems(uri, blocks) {
       let items = await this.loadJson(uri);
+      let childs = "";
       items.forEach(item => {
         if(item.preview) {
           this.loadImage("/common/items/"+item.preview).then((x) => item.preview = x);
@@ -9,7 +10,9 @@ export class ItemLoader {
         if(item.block >= 0) {
           item.block = blocks.find(x => x.id == item.block);
         }
+        childs += '<div class="item"></div>'
       })
+      document.querySelector(".items").innerHTML = childs;
       console.log(items);
       return items;
   }

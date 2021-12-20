@@ -1,5 +1,5 @@
 export class Chunk {
-  static SIZE = 10;
+  static SIZE = 16;
 
   constructor(x, z, blocks=[]) {
     this.x = x;

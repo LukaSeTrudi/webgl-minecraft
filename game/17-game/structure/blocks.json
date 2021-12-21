@@ -28,5 +28,29 @@
     "name": "Stone",
     "texture": "stone.png",
     "durability": 100
+  },
+  {
+    "id": 5,
+    "name": "Cobblestone",
+    "texture": "cobblestone.png",
+    "durability": 100
+  },
+  {
+    "id": 6,
+    "name": "Glass",
+    "texture": "glass.png",
+    "durability": 100
+  },
+  {
+    "id": 7,
+    "name": "Crafting Table",
+    "texture": "craftingtable.png",
+    "durability": 100
+  },
+  {
+    "id": 8,
+    "name": "Furnace",
+    "texture": "furnace.png",
+    "durability": 100
   }
 ]

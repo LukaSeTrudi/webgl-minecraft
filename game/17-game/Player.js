@@ -10,6 +10,7 @@ export class Player extends Node {
     this.mousemoveHandler = this.mousemoveHandler.bind(this);
     this.keydownHandler = this.keydownHandler.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
+    this.mouseClickHandler = this.mouseClickHandler.bind(this);
     this.keys = {};
   }
 
@@ -43,7 +44,7 @@ export class Player extends Node {
     }
 
     c.velocity[1] = 0;
-    
+
     // 2: update velocity
     vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
 
@@ -57,25 +58,27 @@ export class Player extends Node {
     if (len > c.maxSpeed) {
       vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
     }
-    if(this.keys["KeyF"]) {
-      vec3.scale(c.velocity,c.velocity,2);
+    if (this.keys["KeyF"]) {
+      vec3.scale(c.velocity, c.velocity, 2);
     }
     if (this.keys["Space"]) {
       c.velocity[1] = this.flySpeed;
     }
-    if(this.keys["ShiftLeft"]) {
+    if (this.keys["ShiftLeft"]) {
       c.velocity[1] = -this.flySpeed;
     }
   }
 
   enableCamera() {
     document.addEventListener("mousemove", this.mousemoveHandler);
+    document.addEventListener("click", this.mouseClickHandler);
     document.addEventListener("keydown", this.keydownHandler);
     document.addEventListener("keyup", this.keyupHandler);
   }
 
   disableCamera() {
     document.removeEventListener("mousemove", this.mousemoveHandler);
+    document.removeEventListener("click", this.mouseClickHandler);
     document.removeEventListener("keydown", this.keydownHandler);
     document.removeEventListener("keyup", this.keyupHandler);
 
@@ -103,6 +106,18 @@ export class Player extends Node {
     }
     c.rotation[1] = ((c.rotation[1] % twopi) + twopi) % twopi;
     c.head.updateTransform();
+  }
+
+  mouseClickHandler(e) {
+    console.log(e);
+    switch (e.which) {
+      case 1:
+        break;
+      case 3:
+        break;
+      default:
+        console.log("unknown mouse event");
+    }
   }
 
   keydownHandler(e) {

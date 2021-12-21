@@ -3,6 +3,8 @@ import { Block } from "../world/Block.js";
 
 export class BlockLoader {
 
+  static availableBlocks = [];
+
   async loadBlocks(uri) {
       let blocks = await this.loadJson(uri);
       let blockMesh = await this.loadJson("/common/models/cube.json");
@@ -13,6 +15,8 @@ export class BlockLoader {
         let texture = await this.loadImage("/common/textures/"+blocks[i].texture).then((x) => blocks[i].texture = x);
         _blocks.push(new Block(blockMesh, texture, blocks[i]));
       }
+      Block.grassTexture = _blocks[0].image;
+      Block.stoneTexture = _blocks[4].image;
       return _blocks;
   }
 

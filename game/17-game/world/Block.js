@@ -2,8 +2,10 @@ import { Model } from '../Model.js';
 
 export class Block extends Model {
   static originalMesh = null;
+  static grassTexture = null;
+  static stoneTexture = null;
+
   constructor(mesh, texture, options) {
-    mesh = {...Block.originalMesh};
     super(mesh, texture, options);
     this.id = options.id;
     this.durability = options.durability;

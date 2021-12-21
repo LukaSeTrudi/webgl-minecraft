@@ -44,9 +44,9 @@ class App extends Application {
 
   updateGUI() {
     if(this.player) {
-      this.guiCoords.x.setValue(this.player.translation[0]);
-      this.guiCoords.y.setValue(this.player.translation[1]);
-      this.guiCoords.z.setValue(this.player.translation[2])
+      // this.guiCoords.x.setValue(this.player.translation[0]);
+      // this.guiCoords.y.setValue(this.player.translation[1]);
+      // this.guiCoords.z.setValue(this.player.translation[2])
     }
   }
 
@@ -72,7 +72,6 @@ class App extends Application {
         this.head = node;
       }
     });
-    
     this.scene.addNode(this.blocks[4]);
     this.camera.head = this.head;
     this.camera.switchPerson();

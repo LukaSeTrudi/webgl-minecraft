@@ -38,6 +38,10 @@ export class Camera extends Node {
     }
     this.updateTransform();
   }
+
+  lookingAt() {
+    
+  }
 }
 
 Camera.defaults = {

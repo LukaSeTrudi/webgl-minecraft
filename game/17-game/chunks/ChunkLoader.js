@@ -11,18 +11,18 @@ export class ChunkLoader {
     const fixedZ = Math.floor(z / Chunk.SIZE) * Chunk.SIZE;
 
     if (!this.activeChunk || this.activeChunk.x != fixedX || this.activeChunk.z != fixedZ) {
-      let chunk = this.chunks.find((chunk) => chunk.x == fixedX && chunk.z == fixedZ);
-      if (!chunk) {
-        chunk = new Chunk(fixedX, fixedZ);
-      }
+      let chunk = this.findOrCreateChunk(fixedX, fixedZ, scene);
       this.activeChunk = chunk;
-      this.chunks.forEach((chunk) => {
-        if (Math.abs(this.activeChunk.x - chunk.x) < 2 * Chunk.SIZE && Math.abs(this.activeChunk.z - chunk.z) < 2 * Chunk.SIZE) {
-          chunk.blocks.forEach((block) => block.chunkVisible = true); 
-        } else {
-          chunk.blocks.forEach((block) => block.chunkVisible = false);
+      this.chunks.forEach(chunk => chunk.blocks.forEach(block => block.chunkVisible = false));
+
+
+      for (let i = -1; i < 2; i++) {
+        for (let j = -1; j < 2; j++) {
+          let chunk = this.findOrCreateChunk(fixedX + i * Chunk.SIZE, fixedZ + j * Chunk.SIZE, scene);
+          chunk.blocks.forEach((block) => (block.chunkVisible = true));
         }
-      });
+      }
+      
     }
   }
 
@@ -33,6 +33,18 @@ export class ChunkLoader {
     this.chunks.push(new Chunk(Math.floor(block.translation[0] / Chunk.SIZE) * Chunk.SIZE, Math.floor(block.translation[2] / Chunk.SIZE) * Chunk.SIZE, [block]));
   }
 
+  findOrCreateChunk(x, z, scene) {
+    const fixedX = Math.floor(x / Chunk.SIZE) * Chunk.SIZE;
+    const fixedZ = Math.floor(z / Chunk.SIZE) * Chunk.SIZE;
+    let ch = this.chunks.find((chunk) => chunk.x == fixedX && chunk.z == fixedZ);
+    if (!ch) {
+      ch = new Chunk(fixedX, fixedZ);
+      ch.blocks.forEach(block => scene.addNode(block));
+      this.chunks.push(ch);
+    }
+    return ch;
+  }
+
   optimizeBlock(block, destroyed = false) {
     let center = block;
     let behind = this.findBlock(block.translation[0], block.translation[1], block.translation[2] + 1);
@@ -41,7 +53,7 @@ export class ChunkLoader {
     let left = this.findBlock(block.translation[0] + 1, block.translation[1], block.translation[2]);
     let bottom = this.findBlock(block.translation[0], block.translation[1] - 1, block.translation[2]);
     let top = this.findBlock(block.translation[0], block.translation[1] + 1, block.translation[2]);
-    
+
     //types - behind, front, right, left, bottom, top;
     center.setFace("left", left ? false : true);
     center.setFace("right", right ? false : true);
@@ -78,10 +90,10 @@ export class ChunkLoader {
   }
 
   findBlock(x, y, z) {
-    for(let i = 0; i < this.chunks.length; i++) {
-      for(let j = 0; j < this.chunks[i].blocks.length; j++) {
+    for (let i = 0; i < this.chunks.length; i++) {
+      for (let j = 0; j < this.chunks[i].blocks.length; j++) {
         let node = this.chunks[i].blocks[j];
-        if(node.translation[0] == x && node.translation[1] == y && node.translation[2] == z) {
+        if (node.translation[0] == x && node.translation[1] == y && node.translation[2] == z) {
           return node;
         }
       }

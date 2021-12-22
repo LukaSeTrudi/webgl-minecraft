@@ -30,6 +30,13 @@
             "fov": 1.5,
             "near": 0.01,
             "far": 100
+          },
+          {
+            "type": "model",
+            "extra": "raycast",
+            "mesh": 0,
+            "texture": 6,
+            "scale": [0.1, 0.1, 0.1]
           }]
         },
         {

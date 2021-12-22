@@ -16,7 +16,8 @@ export class Scene {
     let found = this.nodes.findIndex((x) => x === node);
     if (found !== -1) {
       if (node instanceof Block) {
-        //this.optimizeBlock(node, true);
+        console.log(node)
+        this.cl.optimizeBlock(node, true);
       }
       this.nodes.splice(found, 1);
     }

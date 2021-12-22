@@ -14,7 +14,7 @@ export class Physics {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
                 node.updateTransform();
                 node.grounded = false;
-                this.scene.nodes.forEach(other => {
+                this.scene.traverse(other => {
                     if(other instanceof Block && node.distanceTo(other) <= 2) {
                         this.resolveCollision(node, other);
                     }

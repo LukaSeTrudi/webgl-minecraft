@@ -6,6 +6,7 @@ export class Block extends Model {
   static stoneTexture = null;
 
   constructor(mesh, texture, options) {
+    mesh = {... Block.originalMesh};
     super(mesh, texture, options);
     this.id = options.id;
     this.durability = options.durability;

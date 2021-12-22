@@ -1,5 +1,5 @@
 import { Node } from "./Node.js";
-import { vec3, mat4 } from "../../lib/gl-matrix-module.js";
+import { vec3, mat4, quat } from "../../lib/gl-matrix-module.js";
 
 import { Utils } from "./Utils.js";
 export class Player extends Node {
@@ -108,24 +108,45 @@ export class Player extends Node {
     c.head.updateTransform();
   }
 
+  
   mouseClickHandler(e) {
-    console.log(e);
+    this.lookingAt();
     switch (e.which) {
       case 1:
         break;
       case 3:
         break;
-      default:
-        console.log("unknown mouse event");
-    }
-  }
-
+        default:
+          console.log("unknown mouse event");
+        }
+      }
+      
   keydownHandler(e) {
     this.keys[e.code] = true;
   }
-
+  
   keyupHandler(e) {
     this.keys[e.code] = false;
+  }
+
+  lookingAt() {
+    this.ray.translation = [0, 0, 0];
+    for(let i = 0; i < 10; i+= 0.1) {
+      this.ray.translation[2] = -i;
+      this.ray.updateTransform();
+      const mt = this.ray.getGlobalTransform();
+      let v = vec3.create();
+      mat4.getTranslation(v, mt);
+      let found = false;
+      this.scene.traverse(node => {
+        if(node.translation[0] == Math.floor(v[0]) && node.translation[1] == Math.floor(v[1]) && node.translation[2] == Math.floor(v[2])) {
+          this.scene.removeNode(node);
+          found = true;
+          return;
+        }
+      })
+      if(found) return;
+    }
   }
 }
 Player.defaults = {

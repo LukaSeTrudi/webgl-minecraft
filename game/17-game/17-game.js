@@ -44,9 +44,9 @@ class App extends Application {
 
   updateGUI() {
     if(this.player) {
-      // this.guiCoords.x.setValue(this.player.translation[0]);
-      // this.guiCoords.y.setValue(this.player.translation[1]);
-      // this.guiCoords.z.setValue(this.player.translation[2])
+      this.guiCoords.x.setValue(this.player.translation[0]);
+      this.guiCoords.y.setValue(this.player.translation[1]);
+      this.guiCoords.z.setValue(this.player.translation[2])
     }
   }
 
@@ -60,6 +60,7 @@ class App extends Application {
     this.camera = null;
     this.player = null;
     this.head = null;
+    this.ray = null;
     // Find first camera.
     this.scene.traverse((node) => {
       if (node.extra == "camera") {
@@ -71,12 +72,18 @@ class App extends Application {
       if (node.extra == "head") {
         this.head = node;
       }
+      if(node.extra == "raycast") {
+        this.ray = node;
+      }
     });
     this.scene.addNode(this.blocks[4]);
     this.camera.head = this.head;
     this.camera.switchPerson();
+    this.scene.cl = this.chunkLoader;
     this.player.head = this.head;
+    this.player.scene = this.scene;
     this.player.camera = this.camera;
+    this.player.ray = this.ray;
     this.camera.aspect = this.aspect;
     this.camera.updateProjection();
     this.renderer.prepare(this.scene);

@@ -34,4 +34,13 @@ export class Chunk {
     }
     return false;
   }
+  removeBlock(block) {
+    let findInd = this.blocks.findIndex(bl => bl.translation[0] == block.translation[0] && bl.translation[1] == block.translation[1] && bl.translation[2] == block.translation[2]);
+    if(findInd >= 0) {
+      block = null;
+      this.blocks.splice(findInd, 1);
+      return true;
+    }
+    return false;
+  }
 }

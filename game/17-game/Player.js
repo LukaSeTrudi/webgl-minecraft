@@ -2,6 +2,9 @@ import { Node } from "./Node.js";
 import { vec3, mat4, quat } from "../../lib/gl-matrix-module.js";
 
 import { Utils } from "./Utils.js";
+import { Block } from "./world/Block.js";
+import { BlockLoader } from "./loaders/BlockLoader.js";
+
 export class Player extends Node {
   constructor(options) {
     super(options);
@@ -110,16 +113,17 @@ export class Player extends Node {
 
   
   mouseClickHandler(e) {
-    this.lookingAt();
     switch (e.which) {
       case 1:
+        this.clickBlock(true);  
         break;
       case 3:
+        this.clickBlock(false);
         break;
-        default:
-          console.log("unknown mouse event");
-        }
-      }
+      default:
+        console.log("unknown mouse event");
+    }
+  }
       
   keydownHandler(e) {
     this.keys[e.code] = true;
@@ -129,25 +133,45 @@ export class Player extends Node {
     this.keys[e.code] = false;
   }
 
-  lookingAt() {
+  clickBlock(_break) {
     this.ray.translation = [0, 0, 0];
+    let bl = null;
+    let last = null;
+    let clicked = null;
     for(let i = 0; i < 10; i+= 0.1) {
       this.ray.translation[2] = -i;
       this.ray.updateTransform();
       const mt = this.ray.getGlobalTransform();
       let v = vec3.create();
       mat4.getTranslation(v, mt);
-      let found = false;
-      this.scene.traverse(node => {
-        if(node.translation[0] == Math.floor(v[0]) && node.translation[1] == Math.floor(v[1]) && node.translation[2] == Math.floor(v[2])) {
-          this.scene.removeNode(node);
-          found = true;
+      if(!bl || bl[0] != Math.floor(v[0]) || bl[1] != Math.floor(v[1]) || bl[2] != Math.floor(v[2])) {
+        bl = [Math.floor(v[0]), Math.floor(v[1]), Math.floor(v[2])];
+        let found = false;
+        this.scene.traverse(node => {
+          if(node.translation[0] == bl[0] && node.translation[1] == bl[1] && node.translation[2] == bl[2] && (node instanceof Block)) {
+            clicked = node;
+            found = true;
+            return;
+          }
+        })
+        if(found) {
+          if(last) {
+            if(_break) {
+              this.scene.removeNode(clicked);
+              this.scene.cl.removeBlock(clicked);
+            } else {
+              const block = new Block(Block.originalMesh, Block.stoneTexture, {translation: [...last]} );
+              this.scene.addNode(block);
+              this.scene.cl.insertBlock(block);
+            }
+          }
           return;
         }
-      })
-      if(found) return;
+        last = [...bl];
+      }
     }
   }
+
 }
 Player.defaults = {
   velocity: [0, -1, 0],

@@ -24,7 +24,12 @@ export class ChunkLoader {
     }
   }
 
+  removeBlock(block) {
+    this.optimizeBlock(block, true);
+  }
+
   insertBlock(block) {
+    this.optimizeBlock(block);
     for (let i = 0; i < this.chunks.length; i++) {
       if (this.chunks[i].addBlock(block)) return;
     }
@@ -78,7 +83,6 @@ export class ChunkLoader {
         }
       }
     }
-
     //types - behind, front, right, left, bottom, top;
     center.setFace("left", left ? false : true);
     center.setFace("right", right ? false : true);
@@ -113,17 +117,11 @@ export class ChunkLoader {
       behind.updateMesh();
     }
     if(destroyed) {
-      center = null;
-      this.removeNulls();
-    }
-  }
-
-  removeNulls() {
-    for (let i = 0; i < this.chunks.length; i++) {
-      let findInd = this.chunks[i].blocks.find(x => x == null);
-      if(findInd >= 0) {
-        this.chunks[i].blocks.splice(findInd, 1);
-      }
+      this.chunks.forEach(chunk => {
+        if(chunk.removeBlock(block)) {
+          return;
+        }
+      })
     }
   }
 

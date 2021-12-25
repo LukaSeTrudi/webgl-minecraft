@@ -12,6 +12,7 @@ export class Block extends Model {
     this.durability = options.durability;
     this.fac = ["behind", "front", "right", "left", "bottom", "top"];
     this.faces = [true, true, true, true, true, true];
+    this.updateMesh();
   }
 
   clone() {

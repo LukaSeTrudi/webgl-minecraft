@@ -6,5 +6,69 @@
     "type": "block",
     "stack": 64,
     "block": 0
+  },
+  {
+    "id": 1,
+    "name": "Oak Log",
+    "preview": "oak_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 2,
+    "name": "Oak Plank",
+    "preview": "oak_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 3,
+    "name": "Sand",
+    "preview": "sand.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 4,
+    "name": "Stone",
+    "preview": "stone.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 5,
+    "name": "Cobblestone",
+    "preview": "cobblestone.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 6,
+    "name": "Glass",
+    "preview": "glass.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 7,
+    "name": "Crafting table",
+    "preview": "crafting_table.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
+  },
+  {
+    "id": 8,
+    "name": "Furnace",
+    "preview": "furnace.png",
+    "type": "block",
+    "stack": 64,
+    "block": 0
   }
 ]

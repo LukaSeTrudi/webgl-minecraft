@@ -211,8 +211,8 @@ export class Player extends Node {
 Player.defaults = {
   velocity: [0, -1, 0],
   mouseSensitivity: 0.002,
-  walkSpeed: 3,
-  sprintSpeed: 5,
+  walkSpeed: 4,
+  sprintSpeed: 7,
   jumpForce: 5,
   gravity: -9.8,
   acceleration: 20,

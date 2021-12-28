@@ -14,7 +14,7 @@ body, html {
     overflow: hidden;
 }
 .middle {
-    z-index: 999;
+    z-index: 10;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -25,25 +25,6 @@ body, html {
     height: 100%;
 }
 
-.overlay {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-}
-
-a.back {
-    display: block;
-    padding: 5px 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    text-decoration: none;
-    color: #000;
-}
-
-a.back:hover {
-    background: #ddd;
-}
 .overlay {
     background: #fff5;
     display: flex;
@@ -64,9 +45,9 @@ a.back:hover {
     height: 300px;
 }
 .item {
-    background: yellow;
-    width: 32px;
-    height: 32px;
+    background: #fffc;
+    width: 48px;
+    height: 48px;
 }
 .selectedItems {
     margin: 5px;
@@ -79,5 +60,44 @@ a.back:hover {
     padding: 2px;
 }
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+.middleBottom {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.selected {
+    border: 3px ridge black;
+    width: 43px;
+    height: 43px;
+}
+.selectionItems {
+    background-color: #ccc;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.start {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.start button {
+    width: 200px;
+    height: 32px;
 }

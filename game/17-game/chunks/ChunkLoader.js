@@ -9,7 +9,6 @@ export class ChunkLoader {
   changeActiveChunk(scene, x, z) {
     const fixedX = Math.floor(x / Chunk.SIZE) * Chunk.SIZE;
     const fixedZ = Math.floor(z / Chunk.SIZE) * Chunk.SIZE;
-
     if (!this.activeChunk || this.activeChunk.x != fixedX || this.activeChunk.z != fixedZ) {
       let chunk = this.findOrCreateChunk(fixedX, fixedZ, scene);
       this.activeChunk = chunk;
@@ -18,7 +17,9 @@ export class ChunkLoader {
       for (let i = -1; i < 2; i++) {
         for (let j = -1; j < 2; j++) {
           let chunk = this.findOrCreateChunk(fixedX + i * Chunk.SIZE, fixedZ + j * Chunk.SIZE, scene);
-          chunk.blocks.forEach((block) => (block.chunkVisible = true));
+          if(chunk) {
+            chunk.blocks.forEach((block) => (block.chunkVisible = true));
+          }
         }
       }
     }
@@ -41,6 +42,7 @@ export class ChunkLoader {
     const fixedZ = Math.floor(z / Chunk.SIZE) * Chunk.SIZE;
     let ch = this.chunks.find((chunk) => chunk.x == fixedX && chunk.z == fixedZ);
     if (!ch) {
+      return ch;
       ch = new Chunk(fixedX, fixedZ);
       ch.blocks.forEach((block) => scene.addNode(block));
       this.chunks.push(ch);
@@ -116,12 +118,12 @@ export class ChunkLoader {
       behind.setFace("front", destroyed);
       behind.updateMesh();
     }
-    if(destroyed) {
-      this.chunks.forEach(chunk => {
-        if(chunk.removeBlock(block)) {
+    if (destroyed) {
+      this.chunks.forEach((chunk) => {
+        if (chunk.removeBlock(block)) {
           return;
         }
-      })
+      });
     }
   }
 

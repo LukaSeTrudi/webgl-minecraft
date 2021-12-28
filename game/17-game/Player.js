@@ -4,17 +4,24 @@ import { vec3, mat4, quat } from "../../lib/gl-matrix-module.js";
 import { Utils } from "./Utils.js";
 import { Block } from "./world/Block.js";
 import { BlockLoader } from "./loaders/BlockLoader.js";
+import { Inventory } from "./player/Inventory.js";
 
 export class Player extends Node {
   constructor(options) {
     super(options);
     Utils.init(this, this.constructor.defaults, options);
     this.grounded = false;
+    this.sprinting = false;
+    this.enableMove = true;
+    this.verticalMomentum = 0;
     this.mousemoveHandler = this.mousemoveHandler.bind(this);
     this.keydownHandler = this.keydownHandler.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
     this.mouseClickHandler = this.mouseClickHandler.bind(this);
+    this.scrollHandler = this.scrollHandler.bind(this);
     this.keys = {};
+    this.disabled = false;
+    this.inventory = new Inventory();
   }
 
   distanceTo(other) {
@@ -23,10 +30,11 @@ export class Player extends Node {
   }
 
   update(dt) {
+    this.handleKeys();
     const c = this;
     const forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
     const right = vec3.set(vec3.create(), Math.cos(c.rotation[1]), 0, -Math.sin(c.rotation[1]));
-    const up = vec3.set(vec3.create(), 0, this.flySpeed, 0);
+    const up = vec3.set(vec3.create(), 0, 1, 0);
     // 1: add movement acceleration
     let acc = vec3.create();
     if (this.keys["KeyW"]) {
@@ -36,40 +44,30 @@ export class Player extends Node {
       vec3.sub(acc, acc, forward);
     }
     if (this.keys["KeyD"]) {
-      vec3.add(acc, acc, right);
+      vec3.add(acc, acc, right);  
     }
     if (this.keys["KeyA"]) {
       vec3.sub(acc, acc, right);
     }
-    if (this.keys["Digit5"]) {
-      this.camera.switchPerson();
-      this.keys["Digit5"] = false;
+
+    if (this.verticalMomentum > c.gravity) {
+      this.verticalMomentum += c.gravity * dt;
     }
 
-    c.velocity[1] = 0;
-
-    // 2: update velocity
-    vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
-
-    // 3: if no movement, apply friction
-    if (!this.keys["KeyW"] && !this.keys["KeyS"] && !this.keys["KeyD"] && !this.keys["KeyA"] && c.velocity[1] <= 0) {
-      vec3.scale(c.velocity, c.velocity, 1 - c.friction);
+    if (this.sprinting) {
+      // 2: update velocity
+      vec3.scale(acc, acc, c.sprintSpeed);
+    } else {
+      vec3.scale(acc, acc, c.walkSpeed);
     }
 
-    // 4: limit speed
-    const len = vec3.len(c.velocity);
-    if (len > c.maxSpeed) {
-      vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
+    vec3.scaleAndAdd(acc, acc, up, this.verticalMomentum);
+
+    if (acc[1] < 0) {
+      acc[1] = this.grounded ? 0 : acc[1];
     }
-    if (this.keys["KeyF"]) {
-      vec3.scale(c.velocity, c.velocity, 2);
-    }
-    if (this.keys["Space"]) {
-      c.velocity[1] = this.flySpeed;
-    }
-    if (this.keys["ShiftLeft"]) {
-      c.velocity[1] = -this.flySpeed;
-    }
+
+    c.velocity = acc;
   }
 
   enableCamera() {
@@ -84,10 +82,43 @@ export class Player extends Node {
     document.removeEventListener("click", this.mouseClickHandler);
     document.removeEventListener("keydown", this.keydownHandler);
     document.removeEventListener("keyup", this.keyupHandler);
-
     for (let key in this.keys) {
       this.keys[key] = false;
     }
+  }
+
+  handleKeys() {
+    if (this.translation[1] < -10 || this.keys["KeyR"]) {
+      this.translation[1] = 14;
+      this.updateTransform();
+    }
+
+    if (this.keys["F5"]) {
+      this.camera.switchPerson();
+      this.keys["F5"] = false;
+    }
+
+    if (this.keys["Space"] && this.grounded && this.velocity[1] == 0) {
+      this.verticalMomentum = this.jumpForce;
+    }
+
+    if (this.keys["ShiftLeft"]) {
+      this.sprinting = true;
+    } else {
+      this.sprinting = false;
+    }
+
+    for(let i = 0; i < 9; i++) {
+      if(this.keys["Digit"+(i+1)]) {
+        this.inventory.changeSelectedIndex(i);
+      }
+    }
+
+    if(this.keys["KeyE"]) {
+      this.inventory.toggleInventory();
+      this.keys["KeyE"] = false;
+    }
+
   }
 
   mousemoveHandler(e) {
@@ -101,21 +132,20 @@ export class Player extends Node {
     const twopi = pi * 2;
     const halfpi = pi / 2;
 
-    if (c.head.rotation[0] > halfpi / 4) {
-      c.head.rotation[0] = halfpi / 4;
+    if (c.head.rotation[0] > halfpi) {
+      c.head.rotation[0] = halfpi;
     }
-    if (c.head.rotation[0] < -halfpi) {
-      c.head.rotation[0] = -halfpi;
+    if (c.head.rotation[0] < -halfpi / 1.1) {
+      c.head.rotation[0] = -halfpi / 1.1;
     }
     c.rotation[1] = ((c.rotation[1] % twopi) + twopi) % twopi;
     c.head.updateTransform();
   }
 
-  
   mouseClickHandler(e) {
     switch (e.which) {
       case 1:
-        this.clickBlock(true);  
+        this.clickBlock(true);
         break;
       case 3:
         this.clickBlock(false);
@@ -124,12 +154,18 @@ export class Player extends Node {
         console.log("unknown mouse event");
     }
   }
-      
+
+  scrollHandler(e) {
+    console.log(e)
+  }
+
   keydownHandler(e) {
+    e.preventDefault();
     this.keys[e.code] = true;
   }
-  
+
   keyupHandler(e) {
+    e.preventDefault();
     this.keys[e.code] = false;
   }
 
@@ -138,29 +174,29 @@ export class Player extends Node {
     let bl = null;
     let last = null;
     let clicked = null;
-    for(let i = 0; i < 10; i+= 0.1) {
+    for (let i = 0; i < 10; i += 0.1) {
       this.ray.translation[2] = -i;
       this.ray.updateTransform();
       const mt = this.ray.getGlobalTransform();
       let v = vec3.create();
       mat4.getTranslation(v, mt);
-      if(!bl || bl[0] != Math.floor(v[0]) || bl[1] != Math.floor(v[1]) || bl[2] != Math.floor(v[2])) {
+      if (!bl || bl[0] != Math.floor(v[0]) || bl[1] != Math.floor(v[1]) || bl[2] != Math.floor(v[2])) {
         bl = [Math.floor(v[0]), Math.floor(v[1]), Math.floor(v[2])];
         let found = false;
-        this.scene.traverse(node => {
-          if(node.translation[0] == bl[0] && node.translation[1] == bl[1] && node.translation[2] == bl[2] && (node instanceof Block)) {
+        this.scene.traverse((node) => {
+          if (node.translation[0] == bl[0] && node.translation[1] == bl[1] && node.translation[2] == bl[2] && node instanceof Block) {
             clicked = node;
             found = true;
             return;
           }
-        })
-        if(found) {
-          if(last) {
-            if(_break) {
+        });
+        if (found) {
+          if (last) {
+            if (_break) {
               this.scene.removeNode(clicked);
               this.scene.cl.removeBlock(clicked);
             } else {
-              const block = new Block(Block.originalMesh, Block.stoneTexture, {translation: [...last]} );
+              const block = new Block(Block.originalMesh, Block.stoneTexture, { translation: [...last] });
               this.scene.addNode(block);
               this.scene.cl.insertBlock(block);
             }
@@ -171,13 +207,13 @@ export class Player extends Node {
       }
     }
   }
-
 }
 Player.defaults = {
   velocity: [0, -1, 0],
   mouseSensitivity: 0.002,
-  maxSpeed: 7,
-  flySpeed: 8,
-  friction: 0.2,
+  walkSpeed: 3,
+  sprintSpeed: 5,
+  jumpForce: 5,
+  gravity: -9.8,
   acceleration: 20,
 };

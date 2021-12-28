@@ -4,14 +4,15 @@ export class ItemLoader {
       let items = await this.loadJson(uri);
       let childs = "";
       items.forEach(item => {
-        if(item.preview) {
-          this.loadImage("/common/items/"+item.preview).then((x) => item.preview = x);
-        }
+        // if(item.preview) {
+        //   this.loadImage("/common/items/"+item.preview).then((x) => item.preview = x);
+        // }
         if(item.block >= 0) {
           item.block = blocks.find(x => x.id == item.block);
         }
-        childs += '<div class="item"></div>'
+        childs += '<div class="item"><img src="./common/items/'+item.preview+'"></div>'
       })
+      console.log(childs);
       document.querySelector(".items").innerHTML = childs;
       console.log(items);
       return items;

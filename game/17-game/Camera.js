@@ -21,9 +21,13 @@ export class Camera extends Node {
   switchPerson() {
     this.personMode = (this.personMode + 1) % 3; // 0 - first person, 1- third person, 2- front third person,
     this.head.visible = true;
+    this.head.translation = [0, 1.05, 0];
+    this.head.updateTransform();
     switch (this.personMode) {
       case 0:
         this.head.visible = false;
+        this.head.translation = [0, 1.45, -0.2]
+        this.head.updateTransform();
         this.translation = CAMERA_SETTINGS.FIRST_PERSON_POSITION;
         this.rotation = CAMERA_SETTINGS.FIRST_PERSON_ROTATION;
         break;

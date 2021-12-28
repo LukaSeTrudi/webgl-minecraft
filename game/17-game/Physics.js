@@ -15,7 +15,7 @@ export class Physics {
                 node.updateTransform();
                 node.grounded = false;
                 this.scene.traverse(other => {
-                    if(other instanceof Block && node.distanceTo(other) <= 2) {
+                    if(other instanceof Block && node.distanceTo(other) <= 5) {
                         this.resolveCollision(node, other);
                     }
                 })

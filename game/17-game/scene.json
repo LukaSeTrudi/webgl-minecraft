@@ -53,7 +53,8 @@
           "texture": 5,
           "translation": [-0.15, -0.2, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.3, 0.6, 0.3]
+          "scale": [0.3, 0.6, 0.3],
+          "extra": "leg1"
         },
         {
           "type": "model",
@@ -61,7 +62,8 @@
           "texture": 5,
           "translation": [0.15, -0.2, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.3, 0.6, 0.3]
+          "scale": [0.3, 0.6, 0.3],
+          "extra": "leg2"
         },
         {
           "type": "model",
@@ -69,7 +71,8 @@
           "texture": 4,
           "translation": [-0.4, 0.4, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.2, 0.8, 0.3]
+          "scale": [0.2, 0.8, 0.3],
+          "extra": "arm1"
         },
         {
           "type": "model",
@@ -77,7 +80,9 @@
           "texture": 4,
           "translation": [0.4, 0.4, 0],
           "rotation": [0, 0, 0],
-          "scale": [0.2, 0.8, 0.3]
+          "scale": [0.2, 0.8, 0.3],
+          "extra": "arm2"
+          
         }
       ]
     }

@@ -5,7 +5,7 @@ import { Utils } from "./Utils.js";
 import { Block } from "./world/Block.js";
 import { BlockLoader } from "./loaders/BlockLoader.js";
 import { Inventory } from "./player/Inventory.js";
-
+import { PlayerAnimation } from "./animations/PlayerAnimation.js";
 export class Player extends Node {
   constructor(options) {
     super(options);
@@ -22,6 +22,7 @@ export class Player extends Node {
     this.keys = {};
     this.disabled = false;
     this.inventory = new Inventory();
+    this.animation = new PlayerAnimation(this);
   }
 
   distanceTo(other) {
@@ -31,6 +32,7 @@ export class Player extends Node {
 
   update(dt) {
     this.handleKeys();
+    this.animation.update(dt);
     const c = this;
     const forward = vec3.set(vec3.create(), -Math.sin(c.rotation[1]), 0, -Math.cos(c.rotation[1]));
     const right = vec3.set(vec3.create(), Math.cos(c.rotation[1]), 0, -Math.sin(c.rotation[1]));

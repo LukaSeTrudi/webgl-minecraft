@@ -14,13 +14,13 @@ export class Node {
         this.parent = null;
     }
 
-    updateTransform() {
+    updateTransform(_origin=[0.5, 0.5, 0.5]) {
         const t = this.transform;
         const degrees = this.rotation.map(x => x * 180 / Math.PI);
         const q = quat.fromEuler(quat.create(), ...degrees);
         const v = vec3.clone(this.translation);
         const s = vec3.clone(this.scale);
-        const origin = vec3.clone([0.5,0.5,0.5])
+        const origin = vec3.clone(_origin)
         mat4.fromRotationTranslationScaleOrigin(t, q, v, s, origin);
     }
 

@@ -13,7 +13,7 @@ export class ItemLoader {
         childs += '<div class="item"><img src="./common/items/'+item.preview+'"></div>'
       })
       console.log(childs);
-      document.querySelector(".items").innerHTML = childs;
+      document.querySelector(".allItems").innerHTML = childs;
       console.log(items);
       return items;
   }

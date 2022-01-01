@@ -1,20 +1,22 @@
+import { Item } from "../world/Item.js";
+import { ItemFactory } from "../world/ItemFactory.js";
+
 export class ItemLoader {
 
   async loadItems(uri, blocks) {
       let items = await this.loadJson(uri);
       let childs = "";
+
+      let itemsObj = [];
       items.forEach(item => {
-        // if(item.preview) {
-        //   this.loadImage("/common/items/"+item.preview).then((x) => item.preview = x);
-        // }
         if(item.block >= 0) {
           item.block = blocks.find(x => x.id == item.block);
         }
-        childs += '<div class="item"><img src="./common/items/'+item.preview+'"></div>'
+        itemsObj.push(new Item(item, item.stack));
+        childs += '<div class="item" onclick="window.inventory.addToItems('+item.id+')"><img src="./common/items/'+item.preview+'"></div>'
       })
-      console.log(childs);
+      ItemFactory.items = itemsObj;
       document.querySelector(".allItems").innerHTML = childs;
-      console.log(items);
       return items;
   }
 

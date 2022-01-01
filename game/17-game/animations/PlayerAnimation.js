@@ -30,7 +30,7 @@ export class PlayerAnimation {
     if (this.walking) {
       if(this.time + this.legMult*this.dir*dt > 1 || this.time + this.legMult*this.dir*dt < 0) this.dir *= -1;
       this.time += this.legMult * this.dir * dt;
-      console.log(this.time);
+      
       this.legs[0].rotation[0] = this.lerp(-Math.PI/6, Math.PI/6, this.time);
       this.legs[1].rotation[0] = this.lerp(-Math.PI/6, Math.PI/6, 1-this.time);
 

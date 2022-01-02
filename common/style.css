@@ -29,9 +29,11 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: fixed;
     width: 100vw;
     top: 0;
     left: 0;
+    z-index: 99;
     height: 100vh;
 }
 .inventory {
@@ -67,6 +69,7 @@ body, html {
     background-color: #444444;
     width: 48px;
     height: 48px;
+    position: relative;
 }
 
 .item img {
@@ -75,7 +78,17 @@ body, html {
     height: calc(100% - 6px);
     margin: 3px;
 }
-
+.item p {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0% 2% 2% 0%;
+    font-weight: normal;
+    color: white;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: center;
+}
 .selectedItems {
     margin: 5px;
     border: 1px solid black;
@@ -92,7 +105,8 @@ body, html {
 
 
 .middleBottom {
-    position: absolute;
+    position: fixed;
+    z-index: 10;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -107,9 +121,9 @@ body, html {
 
 .selected {
     /*border: 3px ridge black;*/
-    background-color: #b4b4b4;
-    width: 48px;
-    height: 48px;
+    background-color: #b4b4b4 !important;
+    width: 48px !important;
+    height: 48px !important;
 }
 .selectionItems {
     display: grid;

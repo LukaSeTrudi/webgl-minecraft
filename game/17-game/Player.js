@@ -46,7 +46,7 @@ export class Player extends Node {
       vec3.sub(acc, acc, forward);
     }
     if (this.keys["KeyD"]) {
-      vec3.add(acc, acc, right);  
+      vec3.add(acc, acc, right);
     }
     if (this.keys["KeyA"]) {
       vec3.sub(acc, acc, right);
@@ -110,17 +110,16 @@ export class Player extends Node {
       this.sprinting = false;
     }
 
-    for(let i = 0; i < 9; i++) {
-      if(this.keys["Digit"+(i+1)]) {
+    for (let i = 0; i < 9; i++) {
+      if (this.keys["Digit" + (i + 1)]) {
         this.inventory.changeSelectedIndex(i);
       }
     }
 
-    if(this.keys["KeyE"]) {
+    if (this.keys["KeyE"]) {
       this.inventory.toggleInventory();
       this.keys["KeyE"] = false;
     }
-
   }
 
   mousemoveHandler(e) {
@@ -158,7 +157,7 @@ export class Player extends Node {
   }
 
   scrollHandler(e) {
-    console.log(e)
+    console.log(e);
   }
 
   keydownHandler(e) {
@@ -176,6 +175,7 @@ export class Player extends Node {
     let bl = null;
     let last = null;
     let clicked = null;
+    const selectedItem = this.inventory.getSelectedItem();
     for (let i = 0; i < 10; i += 0.1) {
       this.ray.translation[2] = -i;
       this.ray.updateTransform();
@@ -198,9 +198,12 @@ export class Player extends Node {
               this.scene.removeNode(clicked);
               this.scene.cl.removeBlock(clicked);
             } else {
-              const block = new Block(Block.originalMesh, Block.stoneTexture, { translation: [...last] });
-              this.scene.addNode(block);
-              this.scene.cl.insertBlock(block);
+              if (selectedItem && selectedItem.item.block) {
+                const block = new Block(Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last] });
+                this.scene.addNode(block);
+                this.scene.cl.insertBlock(block);
+                this.inventory.subSelected();
+              }
             }
           }
           return;

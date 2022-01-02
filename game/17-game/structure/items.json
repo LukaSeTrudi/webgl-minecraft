@@ -13,7 +13,7 @@
     "preview": "oak_log.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 1
   },
   {
     "id": 2,
@@ -21,7 +21,7 @@
     "preview": "oak_plank.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 2
   },
   {
     "id": 3,
@@ -29,7 +29,7 @@
     "preview": "sand.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 3
   },
   {
     "id": 4,
@@ -37,7 +37,7 @@
     "preview": "stone.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 4
   },
   {
     "id": 5,
@@ -45,7 +45,7 @@
     "preview": "cobblestone.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 5
   },
   {
     "id": 6,
@@ -53,7 +53,7 @@
     "preview": "glass.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 6
   },
   {
     "id": 7,
@@ -61,7 +61,7 @@
     "preview": "crafting_table.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 7
   },
   {
     "id": 8,
@@ -69,6 +69,6 @@
     "preview": "furnace.png",
     "type": "block",
     "stack": 64,
-    "block": 0
+    "block": 8
   }
 ]

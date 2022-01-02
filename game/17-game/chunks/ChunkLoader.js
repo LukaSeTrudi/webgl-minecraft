@@ -65,6 +65,7 @@ export class ChunkLoader {
     for (let i = 0; i < this.chunks.length; i++) {
       for (let j = 0; j < this.chunks[i].blocks.length; j++) {
         let node = this.chunks[i].blocks[j];
+        if(center.id == 6 || node.id == 6) continue;
         if (node.translation[0] == x && node.translation[1] == y && node.translation[2] == z + 1) {
           behind = node;
         }

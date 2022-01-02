@@ -8,7 +8,11 @@ export class Scene {
   addNode(node) {
     let found = this.nodes.findIndex((x) => x === node);
     if (found === -1) {
-      this.nodes.push(node);
+      if(node instanceof Block && node.id == 6) {
+        this.nodes.push(node);
+      } else {
+        this.nodes.unshift(node);
+      }
     }
   }
 

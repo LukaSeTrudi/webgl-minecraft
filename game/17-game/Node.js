@@ -70,4 +70,6 @@ Node.defaults = {
     extra: null,
     collidable: false,
     visible: true,
+    doubleSide: false,
+    transparent: false,
 };

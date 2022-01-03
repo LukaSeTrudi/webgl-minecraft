@@ -8,7 +8,9 @@ export class BlockLoader {
   async loadBlocks(uri) {
       let blocks = await this.loadJson(uri);
       let blockMesh = await this.loadJson("/common/models/cube.json");
+      let doubleSide = await this.loadJson("/common/models/doublesidecube.json");
       Block.originalMesh = blockMesh;
+      Block.doubleSide = doubleSide;
       blockMesh = new Mesh(blockMesh);
       let _blocks = [];
       for(let i = 0; i < blocks.length; i++) {

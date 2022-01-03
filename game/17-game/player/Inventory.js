@@ -34,8 +34,26 @@ export class Inventory {
     this.drawItems();
   }
 
-  shiftItem(index) {
-    
+  shiftItem(e, index) {
+    e.preventDefault();
+    if(!e.shiftKey) return;
+    let ignoredArr = [];
+    if(index < 9) {
+      for(let i = 0; i < 9; i++) {
+        ignoredArr.push(i);
+      }
+    } else {
+      for(let i = 9; i < this.allItems.length; i++) {
+        ignoredArr.push(i);
+      }
+    }
+    const item = this.allItems[index];
+    if(item) {
+      const left = this.addItem(item, ignoredArr);
+      if(left > 0) this.allItems[index].quantity= left;
+      else this.allItems[index] = null;
+    }
+    this.drawItems();
   }
 
   changeSelectedIndex(ind) {
@@ -65,11 +83,9 @@ export class Inventory {
     }
   }
 
-  addItem(_item) {
-    console.log(_item)
-    _item.quantity = Math.floor(Math.random()*64);
+  addItem(_item, ignored=[]) {
     this.allItems.forEach((item, index, arr) => { // try add into existing
-      if(item && item.item.id == _item.item.id && _item.quantity > 0) {
+      if(item && item.item.id == _item.item.id && _item.quantity > 0 && !ignored.includes(index)) {
         let allowedSpace = item.item.stack - item.quantity;
         let remove = Math.min(allowedSpace, _item.quantity);
         arr[index].quantity+=remove;
@@ -78,13 +94,14 @@ export class Inventory {
     })
     if(_item.quantity > 0) {
       this.allItems.forEach((item, index, arr) => {
-        if(item == null && _item) {
+        if(item == null && _item && !ignored.includes(index)) {
           arr[index] = _item;
           _item = null;
         }
       });
     }
     this.drawItems();
+    return _item ? _item.quantity : 0;
   }
 
   drawItems() {
@@ -92,7 +109,7 @@ export class Inventory {
       let dom = document.querySelector('.selectionItem'+index);
       let html = '<div></div>';
       if(item) {
-        html = '<div class="item" draggable="true" ondragstart="window.inventory.dragStart(event,'+index+')"><img src="./common/items/'+item.item.preview+'"><p>'+item.quantity+'</p></div>';
+        html = '<div class="item" draggable="true" ondragstart="window.inventory.dragStart(event,'+index+')" onclick="window.inventory.shiftItem(event,'+index+')" ><img src="./common/items/'+item.item.preview+'"><p>'+item.quantity+'</p></div>';
       }
       dom.innerHTML = html;
       if(index < 9) {

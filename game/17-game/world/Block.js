@@ -2,12 +2,20 @@ import { Model } from '../Model.js';
 
 export class Block extends Model {
   static originalMesh = null;
+  static doubleSide = null;
   static grassTexture = null;
   static stoneTexture = null;
 
   constructor(mesh, texture, options) {
-    mesh = {... Block.originalMesh};
-    super(mesh, texture, options);
+    if(options.doubleSide) {
+      mesh = {...Block.doubleSide};
+      for(let i = 72; i < 144; i++) {
+        mesh.vertices[i] = Math.abs(mesh.vertices[i]-0.001);
+      }
+    } else {
+      mesh = {...Block.originalMesh};
+    }
+    super({...mesh}, texture, options);
     this.id = options.id;
     this.durability = options.durability;
     this.fac = ["behind", "front", "right", "left", "bottom", "top"];
@@ -35,6 +43,7 @@ export class Block extends Model {
   };
 
   updateMesh() {
+    if(this.transparent) return;
     this.mesh.indices = [...Block.originalMesh.indices].filter((x, index) => {
       if(this.faces[0] && index < 6) return true;
       if(this.faces[1] && index >= 6 && index < 12) return true;

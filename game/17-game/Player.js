@@ -18,7 +18,7 @@ export class Player extends Node {
     this.keydownHandler = this.keydownHandler.bind(this);
     this.keyupHandler = this.keyupHandler.bind(this);
     this.mouseClickHandler = this.mouseClickHandler.bind(this);
-    this.scrollHandler = this.scrollHandler.bind(this);
+    this.wheelHandler = this.wheelHandler.bind(this);
     this.keys = {};
     this.disabled = false;
     this.inventory = new Inventory();
@@ -77,6 +77,7 @@ export class Player extends Node {
     document.addEventListener("click", this.mouseClickHandler);
     document.addEventListener("keydown", this.keydownHandler);
     document.addEventListener("keyup", this.keyupHandler);
+    document.addEventListener("wheel", this.wheelHandler);
   }
 
   disableCamera() {
@@ -84,9 +85,24 @@ export class Player extends Node {
     document.removeEventListener("click", this.mouseClickHandler);
     document.removeEventListener("keydown", this.keydownHandler);
     document.removeEventListener("keyup", this.keyupHandler);
+    document.removeEventListener("wheel", this.wheelHandler);
     for (let key in this.keys) {
       this.keys[key] = false;
     }
+  }
+
+  wheelHandler(e) {
+    let newIndex = this.inventory.selectedIndex;
+    if(e.deltaY > 0) {
+      newIndex = (newIndex + 1) % 9;
+    } else {
+      if(newIndex == 0) {
+        newIndex = 8;
+      } else {
+        newIndex--;
+      }
+    }
+    this.inventory.changeSelectedIndex(newIndex);
   }
 
   handleKeys() {
@@ -156,9 +172,6 @@ export class Player extends Node {
     }
   }
 
-  scrollHandler(e) {
-    console.log(e);
-  }
 
   keydownHandler(e) {
     e.preventDefault();
@@ -199,7 +212,8 @@ export class Player extends Node {
               this.scene.cl.removeBlock(clicked);
             } else {
               if (selectedItem && selectedItem.item.block) {
-                const block = new Block(Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last] });
+                console.log(selectedItem.item.block)
+                const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last]});
                 this.scene.addNode(block);
                 this.scene.cl.insertBlock(block);
                 this.inventory.subSelected();

@@ -2,22 +2,22 @@ const vertex = `#version 300 es
 layout (location = 0) in vec4 aPosition;
 layout (location = 1) in vec2 aTexCoord;
 layout (location = 2) in vec3 aNormal;
+layout (location = 3) in float lightLevel;
+
 
 uniform mat4 uViewModel;
 uniform mat4 uProjection;
 
+uniform vec3 uLightColor;
+
+uniform float uAmbient; 
+
 out vec2 vTexCoord;
-out float vLight;
+out vec3 vLight;
 
 void main() {
     vTexCoord = aTexCoord;
-    if(aNormal.x != 0.0) {
-        vLight = 1.0;
-    } else if(aNormal.z != 0.0) {
-        vLight = 0.96;
-    } else {
-        vLight = 0.98;
-    }
+    vLight = uLightColor * uAmbient * lightLevel;
     gl_Position = uProjection * uViewModel * aPosition;
 }
 `;
@@ -28,12 +28,16 @@ precision mediump float;
 uniform mediump sampler2D uTexture;
 
 in vec2 vTexCoord;
-in float vLight;
+in vec3 vLight;
 
 out vec4 oColor;
 
 void main() {
-    oColor = texture(uTexture, vTexCoord) * vLight;
+    vec4 _text = texture(uTexture, vTexCoord);
+    if( _text.a < 0.5) {
+        discard;
+    }
+    oColor = _text * vec4(vLight, 1);
 }
 `;
 

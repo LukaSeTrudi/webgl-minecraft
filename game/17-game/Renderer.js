@@ -1,4 +1,4 @@
-import { mat4 } from "../../lib/gl-matrix-module.js";
+import { mat4, vec3 } from "../../lib/gl-matrix-module.js";
 
 import { WebGL } from "../../common/engine/WebGL.js";
 import { Block } from "./world/Block.js";
@@ -60,18 +60,21 @@ export class Renderer {
 
     let matrix = mat4.create();
     let matrixStack = [];
+    let light = vec3.fromValues(255.0,255.0,255.0);
+
 
     const viewMatrix = camera.getGlobalTransform();
     mat4.invert(viewMatrix, viewMatrix);
     mat4.copy(matrix, viewMatrix);
     gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
-
+    gl.uniform3fv(program.uniforms.uLightColor, light);
+    gl.uniform1f(program.uniforms.uAmbient, 0.005);
     scene.traverse(
       (node) => {
         matrixStack.push(mat4.clone(matrix));
         mat4.mul(matrix, matrix, node.transform);
         this.prepareNode(node);
-
+        
         if (node.gl && node.gl.vao) {
           gl.bindVertexArray(node.gl.vao);
           gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);

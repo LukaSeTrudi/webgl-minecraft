@@ -39,7 +39,9 @@
     "id": 6,
     "name": "Glass",
     "texture": "glass.png",
-    "durability": 100
+    "durability": 100,
+    "doubleSide": true,
+    "transparent": true
   },
   {
     "id": 7,

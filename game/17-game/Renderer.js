@@ -27,13 +27,7 @@ export class Renderer {
   prepare(scene) {
     scene.nodes.forEach((node) => {
       node.traverse((_node) => {
-        _node.gl = {};
-        if (_node.mesh) {
-          Object.assign(_node.gl, this.createModel(_node.mesh));
-        }
-        if (_node.image) {
-          _node.gl.texture = this.createTexture(_node.image);
-        }
+        this.prepareNode(_node);
       });
     });
   }
@@ -42,7 +36,7 @@ export class Renderer {
     if (!node.gl) {
       node.gl = {};
       if (node.mesh) {
-        Object.assign(node.gl, this.createModel(node.mesh));
+        Object.assign(node.gl, this.createModel(node));
       }
       if (node.image) {
         node.gl.texture = this.createTexture(node.image);
@@ -60,7 +54,7 @@ export class Renderer {
 
     let matrix = mat4.create();
     let matrixStack = [];
-    let light = vec3.fromValues(255.0,255.0,255.0);
+    let light = vec3.fromValues(1,1,1);
 
 
     const viewMatrix = camera.getGlobalTransform();
@@ -68,7 +62,7 @@ export class Renderer {
     mat4.copy(matrix, viewMatrix);
     gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
     gl.uniform3fv(program.uniforms.uLightColor, light);
-    gl.uniform1f(program.uniforms.uAmbient, 0.005);
+    gl.uniform1f(program.uniforms.uAmbient, 0.4);
     scene.traverse(
       (node) => {
         matrixStack.push(mat4.clone(matrix));
@@ -90,9 +84,9 @@ export class Renderer {
     );
   }
 
-  createModel(model) {
+  createModel(node) {
     const gl = this.gl;
-
+    const model = node.mesh;
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
 
@@ -110,6 +104,12 @@ export class Renderer {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(2);
     gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.light), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(3);
+    gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 0, 0);
+
 
     const indices = model.indices.length;
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());

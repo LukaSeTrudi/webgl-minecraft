@@ -212,7 +212,6 @@ export class Player extends Node {
               this.scene.cl.removeBlock(clicked);
             } else {
               if (selectedItem && selectedItem.item.block) {
-                console.log(selectedItem.item.block)
                 const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last]});
                 this.scene.addNode(block);
                 this.scene.cl.insertBlock(block);

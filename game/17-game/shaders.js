@@ -2,8 +2,7 @@ const vertex = `#version 300 es
 layout (location = 0) in vec4 aPosition;
 layout (location = 1) in vec2 aTexCoord;
 layout (location = 2) in vec3 aNormal;
-layout (location = 3) in float lightLevel;
-
+layout (location = 3) in float aLightLevel;
 
 uniform mat4 uViewModel;
 uniform mat4 uProjection;
@@ -17,7 +16,7 @@ out vec3 vLight;
 
 void main() {
     vTexCoord = aTexCoord;
-    vLight = uLightColor * uAmbient * lightLevel;
+    vLight = (uAmbient + aLightLevel) * uLightColor;
     gl_Position = uProjection * uViewModel * aPosition;
 }
 `;

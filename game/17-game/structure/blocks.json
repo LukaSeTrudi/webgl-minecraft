@@ -41,7 +41,8 @@
     "texture": "glass.png",
     "durability": 100,
     "doubleSide": true,
-    "transparent": true
+    "transparent": true,
+    "lightSource": true
   },
   {
     "id": 7,

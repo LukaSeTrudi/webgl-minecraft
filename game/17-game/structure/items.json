@@ -9,66 +9,234 @@
   },
   {
     "id": 1,
-    "name": "Oak Log",
-    "preview": "oak_log.png",
+    "name": "Dirt",
+    "preview": "dirt.png",
     "type": "block",
     "stack": 64,
     "block": 1
   },
   {
     "id": 2,
-    "name": "Oak Plank",
-    "preview": "oak_plank.png",
+    "name": "Stone",
+    "preview": "stone.png",
     "type": "block",
     "stack": 64,
     "block": 2
   },
   {
     "id": 3,
-    "name": "Sand",
-    "preview": "sand.png",
+    "name": "Stone Brick",
+    "preview": "stone_bricks.png",
     "type": "block",
     "stack": 64,
     "block": 3
   },
   {
     "id": 4,
-    "name": "Stone",
-    "preview": "stone.png",
+    "name": "Cobblestone",
+    "preview": "cobblestone.png",
     "type": "block",
     "stack": 64,
     "block": 4
   },
   {
     "id": 5,
-    "name": "Cobblestone",
-    "preview": "cobblestone.png",
+    "name": "Gravel",
+    "preview": "gravel.png",
     "type": "block",
     "stack": 64,
     "block": 5
   },
   {
     "id": 6,
-    "name": "Glass",
-    "preview": "glass.png",
+    "name": "Sand",
+    "preview": "sand.png",
     "type": "block",
     "stack": 64,
     "block": 6
   },
   {
     "id": 7,
-    "name": "Crafting table",
-    "preview": "crafting_table.png",
+    "name": "Glass",
+    "preview": "glass.png",
     "type": "block",
     "stack": 64,
     "block": 7
   },
   {
     "id": 8,
+    "name": "Oak Log",
+    "preview": "oak_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 8
+  },
+  {
+    "id": 9,
+    "name": "Birch Log",
+    "preview": "birch_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 9
+  },
+  {
+    "id": 10,
+    "name": "Spruce Log",
+    "preview": "spruce_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 10
+  },
+  {
+    "id": 11,
+    "name": "Dark Oak Log",
+    "preview": "dark_oak_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 11
+  },
+  {
+    "id": 12,
+    "name": "Acacia Log",
+    "preview": "acacia_log.png",
+    "type": "block",
+    "stack": 64,
+    "block": 12
+  },
+  {
+    "id": 13,
+    "name": "Oak Plank",
+    "preview": "oak_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 13
+  },
+  {
+    "id": 14,
+    "name": "Birch Plank",
+    "preview": "birch_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 14
+  },
+  {
+    "id": 15,
+    "name": "Spruce Plank",
+    "preview": "spruce_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 15
+  },
+  {
+    "id": 16,
+    "name": "Dark Oak Plank",
+    "preview": "dark_oak_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 16
+  },
+  {
+    "id": 17,
+    "name": "Acacia Plank",
+    "preview": "acacia_plank.png",
+    "type": "block",
+    "stack": 64,
+    "block": 17
+  },
+  {
+    "id": 18,
+    "name": "Oak Leaves",
+    "preview": "oak_leaves.png",
+    "type": "block",
+    "stack": 64,
+    "block": 18
+  },
+  {
+    "id": 19,
+    "name": "Birch Leaves",
+    "preview": "birch_leaves.png",
+    "type": "block",
+    "stack": 64,
+    "block": 19
+  },
+  {
+    "id": 20,
+    "name": "Dark Oak Leaves",
+    "preview": "dark_oak_leaves.png",
+    "type": "block",
+    "stack": 64,
+    "block": 20
+  },
+  {
+    "id": 21,
+    "name": "Acacia Leaves",
+    "preview": "acacia_leaves.png",
+    "type": "block",
+    "stack": 64,
+    "block": 21
+  },
+  {
+    "id": 22,
+    "name": "Snow",
+    "preview": "snow.png",
+    "type": "block",
+    "stack": 64,
+    "block": 22
+  },
+  {
+    "id": 23,
+    "name": "Quartz Block",
+    "preview": "quartz.png",
+    "type": "block",
+    "stack": 64,
+    "block": 23
+  },
+  {
+    "id": 24,
+    "name": "Brick",
+    "preview": "brick.png",
+    "type": "block",
+    "stack": 64,
+    "block": 24
+  },
+  {
+    "id": 25,
+    "name": "Wool",
+    "preview": "wool.png",
+    "type": "block",
+    "stack": 64,
+    "block": 25
+  },
+  {
+    "id": 26,
+    "name": "Ice",
+    "preview": "ice.png",
+    "type": "block",
+    "stack": 64,
+    "block": 26
+  },
+  {
+    "id": 27,
+    "name": "Glowstone",
+    "preview": "glowstone.png",
+    "type": "block",
+    "stack": 64,
+    "block": 27
+  },
+  {
+    "id": 28,
+    "name": "Crafting table",
+    "preview": "crafting_table.png",
+    "type": "block",
+    "stack": 64,
+    "block": 28
+  },
+  {
+    "id": 29,
     "name": "Furnace",
     "preview": "furnace.png",
     "type": "block",
     "stack": 64,
-    "block": 8
+    "block": 29
   }
 ]

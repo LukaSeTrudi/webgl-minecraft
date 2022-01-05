@@ -2,10 +2,10 @@ export class Sound {
   constructor() {
     this.ambientDom = document.querySelector("#ambientSound");
     this.ambientDom.src = "common/sound/ambient.wav";
-    this.ambientDom.volume = 0.2;
+    this.ambientDom.volume = 0;
 
     this.soundEffects = document.querySelector("#otherSound");
-    this.soundEffects.volume = 0.5;
+    this.soundEffects.volume = 0;
 
   }
 

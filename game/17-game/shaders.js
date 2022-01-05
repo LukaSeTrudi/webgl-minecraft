@@ -12,11 +12,13 @@ uniform float uTop;
 
 uniform float uAmbient; 
 uniform float uSunLight;
+uniform float uSunPercent;
+
+uniform vec3 uSunPosition;
+uniform vec3 uLightColor;
 
 uniform mat4 uViewModel;
 uniform mat4 uProjection;
-
-uniform vec3 uLightColor;
 
 out vec2 vTexCoord;
 out vec3 vLight;
@@ -24,6 +26,9 @@ out vec3 vLight;
 
 void main() {
     float sideLight;
+
+    vec3 vertexPosition = (uViewModel * vec4(aPosition)).xyz;
+    vec3 sunPosition = (uViewModel * vec4(uSunPosition, 1)).xyz;
 
     sideLight = 0.5;
     if(aNormal.z == -1.0) {
@@ -41,8 +46,16 @@ void main() {
     }
 
     vTexCoord = aTexCoord;
-    vLight = (uAmbient + sideLight + uSunLight) * uLightColor;
-    gl_Position = uProjection * uViewModel * aPosition;
+
+    vec3 N = (uViewModel * vec4(aNormal, 0)).xyz;
+    vec3 L = normalize(sunPosition - vertexPosition);
+
+    float diffuse = 0.1 * max(0.0, dot(L, N));
+    float sunColor = max(sideLight,uSunLight*uSunPercent);
+
+
+    vLight = min((uAmbient + sunColor + diffuse), 1.0) * uLightColor;
+    gl_Position = uProjection * vec4(vertexPosition, 1);
 }
 `;
 

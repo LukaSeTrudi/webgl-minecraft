@@ -10,7 +10,7 @@ export class Lightning {
     let blocks = [];
     this.chunkLoader.chunks.forEach(chunk => {
       chunk.blocks.forEach(bl => {
-        if(this.distanceTo(bl, block) <= 3) { 
+        if(this.distanceTo(bl, block) <= 3 && !bl.transparent) { 
           blocks.push(bl);
         }
       });

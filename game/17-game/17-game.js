@@ -85,6 +85,7 @@ class App extends Application {
     this.player.camera = this.camera;
     this.player.ray = this.ray;
     this.camera.aspect = this.aspect;
+    this.camera.player = this.player;
     this.camera.updateProjection();
     this.renderer.prepare(this.scene);
   }

@@ -3,6 +3,8 @@ import { Block } from "./world/Block.js";
 export class Scene {
   constructor() {
     this.nodes = [];
+    this.sunPercent = 1;
+    window.scene = this;
   }
 
   addNode(node) {
@@ -25,6 +27,10 @@ export class Scene {
 
   traverse(before, after) {
     this.nodes.filter((node) => node.chunkVisible && node.visible).forEach((node) => node.traverse(before, after));
+  }
+
+  setTime(time) {
+    this.sunPercent = time;
   }
 
   clone() {

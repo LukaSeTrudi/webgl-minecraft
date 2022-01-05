@@ -44,9 +44,23 @@ export class Renderer {
     }
   }
 
+  getSunPosition(percent, translation) {
+    const angle = this.lerp(0, 180, percent);
+    const angleInRadians = angle * (Math.PI / 180);
+    const dist = 10;
+    const x = dist * Math.cos(angleInRadians);
+    const y = dist * Math.sin(angleInRadians);
+    return [translation[0]+x, translation[1]+y, translation[2]];
+  }
+  
+  lerp(start, end, time) {
+    return (1-time)*start+time*end
+  }
+
   render(scene, camera) {
     const gl = this.gl;
 
+    gl.clearColor(0.8*scene.sunPercent, 1*scene.sunPercent, 1*scene.sunPercent, 1);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const program = this.programs.simple;
@@ -56,13 +70,18 @@ export class Renderer {
     let matrixStack = [];
     let light = vec3.fromValues(1,1,1);
 
+    const sunPos = this.getSunPosition(scene.sunPercent, camera.player.translation);
 
     const viewMatrix = camera.getGlobalTransform();
     mat4.invert(viewMatrix, viewMatrix);
     mat4.copy(matrix, viewMatrix);
+
     gl.uniformMatrix4fv(program.uniforms.uProjection, false, camera.projection);
     gl.uniform3fv(program.uniforms.uLightColor, light);
+    gl.uniform1f(program.uniforms.uSunPercent, scene.sunPercent);
+    gl.uniform3fv(program.uniforms.uSunPosition, sunPos);
     gl.uniform1f(program.uniforms.uAmbient, 0.4);
+    
     scene.traverse(
       (node) => {
         matrixStack.push(mat4.clone(matrix));
@@ -82,8 +101,7 @@ export class Renderer {
           gl.uniform1f(program.uniforms.uBottom, node.light[4]);
           gl.uniform1f(program.uniforms.uTop, node.light[5]);
 
-          gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 0.2 : 0);
-
+          gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 1.0 : 0.0);
           gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
         }
       },

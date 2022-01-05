@@ -29,14 +29,20 @@ export class Chunk {
   };
 
   checkSun(block, removing=false) {
+    if(!block.sunLight && removing) return;
+    if(block.transparent) return;
     let bl = this.blocks.find(x => x.sunLight && x.translation[0] == block.translation[0] && x.translation[2] == block.translation[2]);
+    if(!bl) {
+      block.sunLight = true;
+      return;
+    }
     if(removing) {
-      let blR = this.blocks.filter(x => !x.sunLight && x.translation[0] == block.translation[0] && x.translation[2] == block.translation[2]).sort((a, b) => a.translation[1] > b.translation[1]);
+      let blR = this.blocks.filter(x => !x.sunLight && !x.transparent && x.translation[0] == block.translation[0] && x.translation[2] == block.translation[2]).sort((a, b) => a.translation[1] > b.translation[1]);
+      if(blR.length == 0) return;
       blR[blR.length-1].sunLight = true;
       bl.sunLight = false;
       return;
     }
-
 
     if(bl && block.translation[1] > bl.translation[1]) {
       block.sunLight = true;

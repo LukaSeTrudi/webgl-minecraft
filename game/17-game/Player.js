@@ -189,6 +189,7 @@ export class Player extends Node {
     let last = null;
     let clicked = null;
     const selectedItem = this.inventory.getSelectedItem();
+
     for (let i = 0; i < 10; i += 0.1) {
       this.ray.translation[2] = -i;
       this.ray.updateTransform();
@@ -210,12 +211,14 @@ export class Player extends Node {
             if (_break) {
               this.scene.removeNode(clicked);
               this.scene.cl.removeBlock(clicked);
+              this.sound.breaking(clicked);
             } else {
               if (selectedItem && selectedItem.item.block) {
                 const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last]});
                 this.scene.addNode(block);
                 this.scene.cl.insertBlock(block);
                 this.inventory.subSelected();
+                this.sound.placing(selectedItem.item.block);
               }
             }
           }
@@ -224,6 +227,7 @@ export class Player extends Node {
         last = [...bl];
       }
     }
+    this.sound.miss(_break);
   }
 }
 Player.defaults = {

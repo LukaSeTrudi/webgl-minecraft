@@ -75,6 +75,15 @@ export class Renderer {
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
           gl.uniform1i(program.uniforms.uTexture, 0);
+          gl.uniform1f(program.uniforms.uBehind, node.light[0]);
+          gl.uniform1f(program.uniforms.uFront, node.light[1]);
+          gl.uniform1f(program.uniforms.uRight, node.light[2]);
+          gl.uniform1f(program.uniforms.uLeft, node.light[3]);
+          gl.uniform1f(program.uniforms.uBottom, node.light[4]);
+          gl.uniform1f(program.uniforms.uTop, node.light[5]);
+
+          gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 0.2 : 0);
+
           gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
         }
       },
@@ -104,12 +113,6 @@ export class Renderer {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(2);
     gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.light), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(3);
-    gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 0, 0);
-
 
     const indices = model.indices.length;
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());

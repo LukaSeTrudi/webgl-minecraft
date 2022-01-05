@@ -2,21 +2,46 @@ const vertex = `#version 300 es
 layout (location = 0) in vec4 aPosition;
 layout (location = 1) in vec2 aTexCoord;
 layout (location = 2) in vec3 aNormal;
-layout (location = 3) in float aLightLevel;
+
+uniform float uBehind;
+uniform float uFront;
+uniform float uRight;
+uniform float uLeft;
+uniform float uBottom;
+uniform float uTop;
+
+uniform float uAmbient; 
+uniform float uSunLight;
 
 uniform mat4 uViewModel;
 uniform mat4 uProjection;
 
 uniform vec3 uLightColor;
 
-uniform float uAmbient; 
-
 out vec2 vTexCoord;
 out vec3 vLight;
 
+
 void main() {
+    float sideLight;
+
+    sideLight = 0.5;
+    if(aNormal.z == -1.0) {
+        sideLight = uBehind;
+    } else if(aNormal.z == 1.0) {
+        sideLight = uFront;
+    } else if(aNormal.x == 1.0) {
+        sideLight = uRight;
+    } else if(aNormal.x == -1.0) {
+        sideLight = uLeft;
+    } else if(aNormal.y == 1.0) {
+        sideLight = uBottom;
+    } else if(aNormal.y == -1.0) {
+        sideLight = uTop;
+    }
+
     vTexCoord = aTexCoord;
-    vLight = (uAmbient + aLightLevel) * uLightColor;
+    vLight = (uAmbient + sideLight + uSunLight) * uLightColor;
     gl_Position = uProjection * uViewModel * aPosition;
 }
 `;

@@ -167,7 +167,8 @@
     "id": 27,
     "name": "Glowstone",
     "texture": "glowstone.png",
-    "durability": 100
+    "durability": 100,
+    "lightSource": true
   },
   {
     "id": 28,

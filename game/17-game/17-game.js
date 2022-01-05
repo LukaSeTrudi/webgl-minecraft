@@ -11,6 +11,7 @@ import { ItemLoader } from "./loaders/ItemLoader.js";
 import { Player } from "./Player.js";
 import { Block } from "./world/Block.js";
 import { Chunk } from "./chunks/Chunk.js";
+import { Sound } from "./sound/Sound.js";
 
 class App extends Application {
   async start() {
@@ -35,6 +36,7 @@ class App extends Application {
 
     this.blocks = await new BlockLoader().loadBlocks("/game/17-game/structure/blocks.json");
     this.items = await new ItemLoader().loadItems("/game/17-game/structure/items.json", this.blocks);
+    this.sound = new Sound();
     this.load("/game/17-game/scene.json");
   }
 
@@ -64,8 +66,8 @@ class App extends Application {
         this.ray = node;
       }
     });
-    this.scene.addNode(this.blocks[4]);
     this.camera.head = this.head;
+    this.player.sound = this.sound;
     this.camera.switchPerson();
     this.scene.cl = this.chunkLoader;
 
@@ -88,6 +90,7 @@ class App extends Application {
   }
   
   enableCamera() {
+    this.sound.toggleAmbient(true);
     this.canvas.requestPointerLock();
   }
   
@@ -97,10 +100,12 @@ class App extends Application {
     }
     if (document.pointerLockElement === this.canvas) {
       document.querySelector('.start').classList.add('hidden');
+      this.sound.toggleAmbient(true);
       this.player.enableCamera();
     } else {  
       this.player.disableCamera();
       if(!this.player.inventory.openedInventory) {
+        this.sound.toggleAmbient(false);
         document.querySelector('.start').classList.remove('hidden');
       }
     }

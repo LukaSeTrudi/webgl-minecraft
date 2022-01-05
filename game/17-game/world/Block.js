@@ -17,6 +17,8 @@ export class Block extends Model {
     }
     super({...mesh}, texture, options);
     this.id = options.id;
+    this.setLightning("all", 0);
+    this.changedLightning = false;
     this.durability = options.durability;
     this.fac = ["behind", "front", "right", "left", "bottom", "top"];
     this.faces = [true, true, true, true, true, true];
@@ -57,15 +59,12 @@ export class Block extends Model {
   }
 
   setLightning(side, val) {
+    this.changedLightning = true;
     if(side == "all") {
-      this.light = this.light.map(x => Math.max(x, val/15));
-      this.gl = null;
+      this.light = this.light.map(x => val);
       return;
     }
-    let ind = this.fac.findIndex(x => x == side);
-    for(let i = ind*12; i < ind*12 + 12; i++) {
-      this.light[i] = Math.max(this.light[i], val/15);
-    }
-    this.gl = null;
+    let i = this.fac.findIndex(x => x == side);
+    this.light[i] = Math.max(this.light[i], val);
   }
 }

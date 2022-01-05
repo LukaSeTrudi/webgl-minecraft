@@ -72,6 +72,7 @@ Node.defaults = {
     visible: true,
     doubleSide: false,
     transparent: false,
-    light: Array(72).fill(0.05),
-    lightSource: false
+    light: Array(6).fill(1),
+    lightSource: false,
+    sunLight: false
 };

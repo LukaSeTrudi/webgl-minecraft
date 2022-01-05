@@ -1,8 +1,10 @@
+import { Lightning } from "../world/Lightning.js";
 import { Chunk } from "./Chunk.js";
 
 export class ChunkLoader {
   constructor() {
     this.chunks = [];
+    this.lightning = new Lightning(this);
     this.activeChunk = null;
   }
 
@@ -26,12 +28,15 @@ export class ChunkLoader {
   }
 
   removeBlock(block) {
+    if(block.lightSource) this.lightning.removeLight(block);
+    else this.lightning.removeBlock(block);
     this.optimizeBlock(block, true);
   }
 
   insertBlock(block) {
     this.optimizeBlock(block);
-    if (block.lightSource) this.setLight(block, 10);
+    if (block.lightSource) this.lightning.addLight(block);
+    else this.lightning.addBlock(block);
     for (let i = 0; i < this.chunks.length; i++) {
       if (this.chunks[i].addBlock(block)) return;
     }
@@ -142,78 +147,5 @@ export class ChunkLoader {
     return null;
   }
 
-  setLight(_center, lightLevel) {
-    const center = new Air(_center.translation[0], _center.translation[1], _center.translation[2], lightLevel);
-    let elements = [center];
-    let explored = [];
-    _center.setLightning("all", lightLevel);
-    while (elements.length > 0) {
-      let block = elements.shift();
-      const light = block.light;
-      if (explored.some(x => x.isEqual(block)) || light <= 5) continue;
-      explored.push(block);
-      let behind = this.findBlock(block.x, block.y, block.z + 1);
-      let front = this.findBlock(block.x, block.y, block.z - 1);
-      let right = this.findBlock(block.x - 1, block.y, block.z);
-      let left = this.findBlock(block.x + 1, block.y, block.z);
-      let bottom = this.findBlock(block.x, block.y - 1, block.z);
-      let top = this.findBlock(block.x, block.y + 1, block.z);
 
-      if(behind) {
-        behind.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x, block.y, block.z + 1, light-1)
-        elements.push(air);
-      }
-
-      if(front) {
-        front.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x, block.y, block.z - 1, light-1)
-        elements.push(air);
-      }
-
-      if(right) {
-        right.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x-1, block.y, block.z, light-1)
-        elements.push(air);
-      }
-
-      if(left) {
-        left.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x+1, block.y, block.z, light-1)
-        elements.push(air);
-      }
-
-      if(bottom) {
-        bottom.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x, block.y-1, block.z, light-1)
-        elements.push(air);
-      }
-
-      if(top) {
-        top.setLightning("front", light-1);
-      } else{
-        let air = new Air(block.x, block.y+1, block.z, light-1)
-        elements.push(air);
-      }
-
-    }
-  }
-}
-
-class Air {
-  constructor(_x, _y, _z, _light) {
-    this.x = _x;
-    this.y = _y;
-    this.z = _z;
-    this.light = _light;
-  }
-
-  isEqual(a) {
-    return this.x == a.x && this.y == a.y && this.z == a;
-  }
 }

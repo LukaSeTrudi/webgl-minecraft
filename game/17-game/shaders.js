@@ -53,7 +53,6 @@ void main() {
     float diffuse = 0.1 * max(0.0, dot(L, N));
     float sunColor = max(sideLight,uSunLight*uSunPercent);
 
-
     vLight = min((uAmbient + sunColor + diffuse), 1.0) * uLightColor;
     gl_Position = uProjection * vec4(vertexPosition, 1);
 }
@@ -78,6 +77,31 @@ void main() {
 }
 `;
 
+const playerVertex = `#version 300 es
+layout (location = 0) in vec4 aPosition;
+layout (location = 1) in vec2 aTexCoord;
+
+uniform float uAmbient;
+
+uniform vec3 uLightColor;
+
+uniform mat4 uViewModel;
+uniform mat4 uProjection;
+
+out vec2 vTexCoord;
+out vec3 vLight;
+
+void main() {
+
+    vec3 vertexPosition = (uViewModel * vec4(aPosition)).xyz;
+
+    vTexCoord = aTexCoord;
+    vLight = min(uAmbient,1.0) * uLightColor;
+    gl_Position = uProjection * vec4(vertexPosition, 1);
+}
+`;
+
 export const shaders = {
-    simple: { vertex, fragment }
+  simple: { vertex, fragment },
+  player: { vertex: playerVertex, fragment },
 };

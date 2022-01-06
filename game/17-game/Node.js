@@ -35,6 +35,7 @@ export class Node {
 
     addChild(node) {
         this.children.push(node);
+        node.isPlayer = this.isPlayer;
         node.parent = this;
     }
 

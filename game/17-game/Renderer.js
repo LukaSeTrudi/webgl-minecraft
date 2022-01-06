@@ -64,6 +64,7 @@ export class Renderer {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     const program = this.programs.simple;
+    const playerProgram = this.programs.player;
     gl.useProgram(program.program);
 
     let matrix = mat4.create();
@@ -87,22 +88,34 @@ export class Renderer {
         matrixStack.push(mat4.clone(matrix));
         mat4.mul(matrix, matrix, node.transform);
         this.prepareNode(node);
-        
-        if (node.gl && node.gl.vao) {
-          gl.bindVertexArray(node.gl.vao);
-          gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
-          gl.activeTexture(gl.TEXTURE0);
-          gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
-          gl.uniform1i(program.uniforms.uTexture, 0);
-          gl.uniform1f(program.uniforms.uBehind, node.light[0]);
-          gl.uniform1f(program.uniforms.uFront, node.light[1]);
-          gl.uniform1f(program.uniforms.uRight, node.light[2]);
-          gl.uniform1f(program.uniforms.uLeft, node.light[3]);
-          gl.uniform1f(program.uniforms.uBottom, node.light[4]);
-          gl.uniform1f(program.uniforms.uTop, node.light[5]);
 
-          gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 1.0 : 0.0);
-          gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
+        if (node.gl && node.gl.vao && node.extra != "raycast") {
+          if(node.isPlayer){
+            gl.useProgram(playerProgram.program);
+            gl.uniformMatrix4fv(playerProgram.uniforms.uProjection, false, camera.projection);
+            gl.uniform3fv(playerProgram.uniforms.uLightColor, light);
+            gl.bindVertexArray(node.gl.vao);
+            gl.uniformMatrix4fv(playerProgram.uniforms.uViewModel, false, matrix);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
+            gl.uniform1f(playerProgram.uniforms.uAmbient, scene.sunPercent+0.4);
+            gl.uniformMatrix4fv(playerProgram.uniforms.uProjection, false, camera.projection);
+            gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
+            gl.useProgram(program.program);
+          } else {
+            gl.bindVertexArray(node.gl.vao);
+            gl.uniformMatrix4fv(program.uniforms.uViewModel, false, matrix);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
+            gl.uniform1f(program.uniforms.uBehind, node.light[0]);
+            gl.uniform1f(program.uniforms.uFront, node.light[1]);
+            gl.uniform1f(program.uniforms.uRight, node.light[2]);
+            gl.uniform1f(program.uniforms.uLeft, node.light[3]);
+            gl.uniform1f(program.uniforms.uBottom, node.light[4]);
+            gl.uniform1f(program.uniforms.uTop, node.light[5]);
+            gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 1.0 : 0.0);
+            gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
+          }
         }
       },
       (node) => {

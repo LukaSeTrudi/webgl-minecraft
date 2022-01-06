@@ -28,6 +28,7 @@ export class SceneBuilder {
       }
       case "player": {
         n = new Player(spec);
+        n.isPlayer = true;
         break;
       }
       default:

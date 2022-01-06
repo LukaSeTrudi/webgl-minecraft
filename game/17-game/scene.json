@@ -1,11 +1,5 @@
 {
-  "nodes": [{
-      "type": "model",
-      "mesh": 0,
-      "texture": 2,
-      "translation": [5, 1, 0],
-      "collidable":true
-    },
+  "nodes": [
     {
       "type": "player",
       "translation": [2, 18, 0],

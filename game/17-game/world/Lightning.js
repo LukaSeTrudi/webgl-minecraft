@@ -43,15 +43,6 @@ export class Lightning {
       light.closest.lightScene();
     }
   }
-  resetLightning() {
-    this.chunkLoader.chunks.forEach(chunk => {
-      chunk.blocks.filter(x => x.changedLightning).forEach((block) => {
-        block.setLightning("all", 0);
-        block.changedLightning = false;
-      })
-    })
-    this.lightSources.forEach(light => light.lightScene());
-  }
 
   distanceTo(bl1, bl2) {
     return Math.sqrt(Math.pow(bl1.translation[0]-bl2.translation[0],2)+Math.pow(bl1.translation[1]-bl2.translation[1],2)+Math.pow(bl1.translation[2]-bl2.translation[2],2))
@@ -73,7 +64,6 @@ export class Lightning {
   addLight(block) {
     let blocks = this.findRadiusBlocks(block);
     this.lightSources.push(new LightSource(block, blocks));
-    this.resetLightning();
   }
 
   removeLight(block) {
@@ -81,7 +71,6 @@ export class Lightning {
     if (ind >= 0) {
       this.lightSources[ind].destroy();
       this.lightSources.splice(ind, 1);
-      this.resetLightning();
     }
   }
 }

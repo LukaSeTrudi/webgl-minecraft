@@ -2,10 +2,12 @@ export class LightSource {
   constructor(block, blocks) {
     this.source = block;
     this.radiusBlocks = blocks;
+    this.pos = block.translation.join("|");
+    this.lightScene();
   }
 
   destroy() {
-    this.radiusBlocks.forEach((bl) => bl.setLightning("all", 0));
+    this.radiusBlocks.forEach((bl) => bl.removeLightning(this.pos));
   }
 
   findAdjacent(air) {
@@ -38,7 +40,7 @@ export class LightSource {
     this.destroy();
     let elements = [new Air(this.source.translation[0], this.source.translation[1], this.source.translation[2], 10)];
     let explored = [];
-    this.source.setLightning("all", 10 / 15);
+    this.source.setLightning("all", this.pos, 10 / 15);
     while (elements.length > 0) {
       const block = elements.shift();
       const light = block.light;
@@ -57,41 +59,41 @@ export class LightSource {
       const newLight = (light - 1) / 15;
 
       if (behind && !explored.some((x) => x.isEqual(behind))) {
-        behind.setLightning("front", newLight);
+        behind.setLightning("front", this.pos, newLight);
       } else {
         let air = new Air(block.x, block.y, block.z + 1, light - 1);
         elements.push(air);
       }
 
       if (front && !explored.some((x) => x.isEqual(front))) {
-        front.setLightning("behind", newLight);
+        front.setLightning("behind", this.pos, newLight);
       } else {
         let air = new Air(block.x, block.y, block.z - 1, light - 1);
         elements.push(air);
       }
 
       if (right && !explored.some((x) => x.isEqualNode(right))) {
-        right.setLightning("left", newLight);
+        right.setLightning("left", this.pos, newLight);
       } else {
         let air = new Air(block.x - 1, block.y, block.z, light - 1);
         elements.push(air);
       }
 
       if (left && !explored.some((x) => x.isEqualNode(left))) {
-        left.setLightning("right", newLight);
+        left.setLightning("right", this.pos, newLight);
       } else {
         let air = new Air(block.x + 1, block.y, block.z, light - 1);
         elements.push(air);
       }
 
       if (bottom && !explored.some((x) => x.isEqualNode(bottom))) {
-        bottom.setLightning("top", newLight);
+        bottom.setLightning("top", this.pos, newLight);
       } else {
         let air = new Air(block.x, block.y - 1, block.z, light - 1);
         elements.push(air);
       }
       if (top && !explored.some((x) => x.isEqualNode(top))) {
-        top.setLightning("bottom", newLight);
+        top.setLightning("bottom", this.pos, newLight);
       } else {
         let air = new Air(block.x, block.y + 1, block.z, light - 1);
         elements.push(air);

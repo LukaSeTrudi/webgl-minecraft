@@ -1,11 +1,11 @@
 export class Sound {
   constructor() {
     this.ambientDom = document.querySelector("#ambientSound");
-    this.ambientDom.src = "common/sound/ambient.wav";
-    this.ambientDom.volume = 0;
+    this.ambientDom.src = "common/sound/ambient.mp3";
+    this.ambientDom.volume = 0.5;
 
     this.soundEffects = document.querySelector("#otherSound");
-    this.soundEffects.volume = 0;
+    this.soundEffects.volume = 0.5;
 
   }
 
@@ -15,7 +15,7 @@ export class Sound {
   }
 
   breaking() {
-    this.soundEffects.src = "common/sound/podiranje.mp3";
+    this.soundEffects.src = "common/sound/hit.mp3";
     this.soundEffects.play();
   }
 

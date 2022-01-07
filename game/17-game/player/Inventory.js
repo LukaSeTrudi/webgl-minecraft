@@ -23,6 +23,11 @@ export class Inventory {
     return this.allItems[this.selectedIndex];
   }
 
+  clear() {
+    this.allItems = new Array(36).fill(null);
+    this.drawItems();
+  }
+
   subSelected() {
     let item = this.getSelectedItem();
     if(item) {

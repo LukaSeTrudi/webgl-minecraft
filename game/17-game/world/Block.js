@@ -5,6 +5,7 @@ export class Block extends Model {
   static doubleSide = null;
   static grassTexture = null;
   static stoneTexture = null;
+  static sunTexture = null;
 
   constructor(mesh, texture, options) {
     if(options.doubleSide) {

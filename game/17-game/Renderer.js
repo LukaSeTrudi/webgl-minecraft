@@ -15,6 +15,7 @@ export class Renderer {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
+
     this.programs = WebGL.buildPrograms(gl, shaders);
 
     this.defaultTexture = WebGL.createTexture(gl, {
@@ -45,12 +46,12 @@ export class Renderer {
   }
 
   getSunPosition(percent, translation) {
-    const angle = this.lerp(0, 180, percent);
+    const angle = this.lerp(180, 360, percent);
     const angleInRadians = angle * (Math.PI / 180);
-    const dist = 10;
+    const dist = 30;
     const x = dist * Math.cos(angleInRadians);
     const y = dist * Math.sin(angleInRadians);
-    return [translation[0]+x, translation[1]+y, translation[2]];
+    return [translation[0]+y, translation[1]+x, translation[2]];
   }
   
   lerp(start, end, time) {
@@ -72,7 +73,8 @@ export class Renderer {
     let light = vec3.fromValues(1,1,1);
 
     const sunPos = this.getSunPosition(scene.sunPercent, camera.player.translation);
-
+    scene.sun.translation = sunPos;
+    scene.sun.updateTransform();
     const viewMatrix = camera.getGlobalTransform();
     mat4.invert(viewMatrix, viewMatrix);
     mat4.copy(matrix, viewMatrix);
@@ -81,7 +83,7 @@ export class Renderer {
     gl.uniform3fv(program.uniforms.uLightColor, light);
     gl.uniform1f(program.uniforms.uSunPercent, scene.sunPercent);
     gl.uniform3fv(program.uniforms.uSunPosition, sunPos);
-    gl.uniform1f(program.uniforms.uAmbient, 0.4);
+    gl.uniform1f(program.uniforms.uAmbient, 0.2);
     
     scene.traverse(
       (node) => {
@@ -98,7 +100,7 @@ export class Renderer {
             gl.uniformMatrix4fv(playerProgram.uniforms.uViewModel, false, matrix);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, node.gl.texture);
-            gl.uniform1f(playerProgram.uniforms.uAmbient, scene.sunPercent+0.4);
+            gl.uniform1f(playerProgram.uniforms.uAmbient, scene.sunPercent+0.2);
             gl.uniformMatrix4fv(playerProgram.uniforms.uProjection, false, camera.projection);
             gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
             gl.useProgram(program.program);
@@ -113,7 +115,7 @@ export class Renderer {
             gl.uniform1f(program.uniforms.uLeft, node.light[3]);
             gl.uniform1f(program.uniforms.uBottom, node.light[4]);
             gl.uniform1f(program.uniforms.uTop, node.light[5]);
-            gl.uniform1f(program.uniforms.uSunLight, node.sunLight ? 1.0 : 0.0);
+            gl.uniform1f(program.uniforms.uSunLight, 0.8);
             gl.drawElements(gl.TRIANGLES, node.gl.indices, gl.UNSIGNED_SHORT, 0);
           }
         }

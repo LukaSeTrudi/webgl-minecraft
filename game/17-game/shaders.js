@@ -50,7 +50,7 @@ void main() {
     vec3 N = (uViewModel * vec4(aNormal, 0)).xyz;
     vec3 L = normalize(sunPosition - vertexPosition);
 
-    float diffuse = 0.1 * max(0.0, dot(L, N));
+    float diffuse = 0.1 * max(0.0, dot(L, N)) * uSunPercent;
     float sunColor = max(sideLight,uSunLight*uSunPercent);
 
     vLight = min((uAmbient + sunColor + diffuse), 1.0) * uLightColor;

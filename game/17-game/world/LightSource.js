@@ -15,7 +15,7 @@ export class LightSource {
     const z = air.z;
     for (let i = 0; i < this.radiusBlocks.length; i++) {
       let node = this.radiusBlocks[i];
-
+      if(node.transparent) continue;
       if (node.translation[0] == x && node.translation[1] == y && node.translation[2] == z + 1) {
         arr[0] = node;
       } else if (node.translation[0] == x && node.translation[1] == y && node.translation[2] == z - 1) {

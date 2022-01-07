@@ -19,6 +19,7 @@ export class BlockLoader {
       }
       Block.grassTexture = _blocks[0].image;
       Block.stoneTexture = _blocks[4].image;
+      Block.sunTexture = _blocks[44].image;
       return _blocks;
   }
 

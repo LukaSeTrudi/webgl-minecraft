@@ -3,8 +3,10 @@ import { Block } from "./world/Block.js";
 export class Scene {
   constructor() {
     this.nodes = [];
-    this.sunPercent = 1;
+    this.sunPercent = 0.9;
     window.scene = this;
+    this.sun = new Block(Block.original, Block.sunTexture, {});
+    this.addNode(this.sun);
   }
 
   addNode(node) {

@@ -75,5 +75,5 @@ Node.defaults = {
     transparent: false,
     light: Array(6).fill(1),
     lightSource: false,
-    sunLight: false
+    sunLight: 0
 };

@@ -13,36 +13,72 @@
   },
   {
     "id": 2,
+    "name": "Farmland",
+    "texture": "farmland.png",
+    "durability": 100
+  },
+  {
+    "id": 3,
     "name": "Stone",
     "texture": "stone.png",
     "durability": 100
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "Stone Brick",
     "texture": "stone_bricks.png",
     "durability": 100
   },
   {
-    "id": 4,
+    "id": 5,
+    "name": "Stone Brick Cracked",
+    "texture": "stonebrick_cracked.png",
+    "durability": 100
+  },
+  {
+    "id": 6,
     "name": "Cobblestone",
     "texture": "cobblestone.png",
     "durability": 100
   },
   {
-    "id": 5,
+    "id": 7,
+    "name": "Cobblestone Mossy",
+    "texture": "cobblestone_mossy.png",
+    "durability": 100
+  },
+  {
+    "id": 8,
     "name": "Gravel",
     "texture": "gravel.png",
     "durability": 100
   },
   {
-    "id": 6,
+    "id": 9,
     "name": "Sand",
     "texture": "sand.png",
     "durability": 100
   },
   {
-    "id": 7,
+    "id": 10,
+    "name": "Red Sand",
+    "texture": "red_sand.png",
+    "durability": 100
+  },
+  {
+    "id": 11,
+    "name": "Sandstone",
+    "texture": "sandstone.png",
+    "durability": 100
+  },
+  {
+    "id": 12,
+    "name": "smooth_sandstone",
+    "texture": "smooth_sandstone.png",
+    "durability": 100
+  },
+  {
+    "id": 13,
     "name": "Glass",
     "texture": "glass.png",
     "durability": 100,
@@ -50,134 +86,212 @@
     "transparent": true
   },
   {
-    "id": 8,
+    "id": 14,
     "name": "Oak Log",
     "texture": "oak_log.png",
     "durability": 100
   },
   {
-    "id": 9,
+    "id": 15,
     "name": "Birch Log",
     "texture": "birch_log.png",
     "durability": 100
   },
   {
-    "id": 10,
+    "id": 16,
     "name": "Spruce Log",
     "texture": "spruce_log.png",
     "durability": 100
   },
   {
-    "id": 11,
+    "id": 17,
+    "name": "Jungle Log",
+    "texture": "jungle_log.png",
+    "durability": 100
+  },
+  {
+    "id": 18,
     "name": "Dark Oak Log",
     "texture": "dark_oak_log.png",
     "durability": 100
   },
   {
-    "id": 12,
+    "id": 19,
     "name": "Acacia Log",
     "texture": "acacia_log.png",
     "durability": 100
   },
   {
-    "id": 13,
+    "id": 20,
     "name": "Oak Plank",
     "texture": "oak_plank.png",
     "durability": 100
   },
   {
-    "id": 14,
+    "id": 21,
     "name": "Birch Plank",
     "texture": "birch_plank.png",
     "durability": 100
   },
   {
-    "id": 15,
+    "id": 22,
     "name": "Spruce Plank",
     "texture": "spruce_plank.png",
     "durability": 100
   },
   {
-    "id": 16,
+    "id": 23,
+    "name": "Jungle Plank",
+    "texture": "jungle_plank.png",
+    "durability": 100
+  },
+  {
+    "id": 24,
     "name": "Dark Oak Log",
     "texture": "dark_oak_log.png",
     "durability": 100
   },
   {
-    "id": 17,
+    "id": 25,
     "name": "Acacia Log",
     "texture": "acacia_log.png",
     "durability": 100
   },
   {
-    "id": 18,
+    "id": 26,
     "name": "Oak Leaves",
     "texture": "oak_leaves.png",
     "durability": 100
   },
   {
-    "id": 19,
+    "id": 27,
     "name": "Birch Leaves",
     "texture": "birch_leaves.png",
     "durability": 100
   },
   {
-    "id": 20,
+    "id": 28,
     "name": "Dark Oak Leaves",
     "texture": "dark_oak_leaves.png",
     "durability": 100
   },
   {
-    "id": 21,
+    "id": 29,
     "name": "Acacia Leaves",
     "texture": "acacia_leaves.png",
     "durability": 100
   },
   {
-    "id": 22,
+    "id": 30,
+    "name": "Hardened Clay",
+    "texture": "hardened_clay.png",
+    "durability": 100
+  },
+  {
+    "id": 31,
+    "name": "Hardened Clay Stained Black",
+    "texture": "hardened_clay_stained_black.png",
+    "durability": 100
+  },
+  {
+    "id": 32,
+    "name": "Hardened Clay Stained Blue",
+    "texture": "hardened_clay_stained_blue.png",
+    "durability": 100
+  },
+  {
+    "id": 33,
+    "name": "Hardened Clay Stained Cyan",
+    "texture": "hardened_clay_stained_cyan.png",
+    "durability": 100
+  },
+  {
+    "id": 34,
+    "name": "Hardened Clay Stained Gray",
+    "texture": "hardened_clay_stained_gray.png",
+    "durability": 100
+  },
+  {
+    "id": 35,
+    "name": "Hardened Clay Stained Silver",
+    "texture": "hardened_clay_stained_silver.png",
+    "durability": 100
+  },
+  {
+    "id": 36,
+    "name": "Hardened Clay Stained White",
+    "texture": "hardened_clay_stained_white.png",
+    "durability": 100
+  },
+  {
+    "id": 37,
+    "name": "Hay",
+    "texture": "hay.png",
+    "durability": 100
+  },
+  {
+    "id": 38,
+    "name": "Melon",
+    "texture": "hay.png",
+    "durability": 100
+  },
+  {
+    "id": 39,
     "name": "Snow",
     "texture": "snow.png",
     "durability": 100
   },
   {
-    "id": 23,
+    "id": 40,
     "name": "Quartz Block",
     "texture": "quartz.png",
     "durability": 100
   },
   {
-    "id": 24,
+    "id": 41,
     "name": "Brick",
     "texture": "brick.png",
     "durability": 100
   },
   {
-    "id": 25,
+    "id": 42,
+    "name": "Nether Brick",
+    "texture": "nether_brick.png",
+    "durability": 100
+  },
+  {
+    "id": 43,
     "name": "Wool",
     "texture": "wool.png",
     "durability": 100
   },
   {
-    "id": 26,
-    "name": "Ice",
-    "texture": "ice.png",
-    "durability": 100
-  },
-  {
-    "id": 27,
+    "id": 44,
     "name": "Glowstone",
     "texture": "glowstone.png",
     "durability": 100,
     "lightSource": true
   },
   {
-    "id": 28,
+    "id": 45,
+    "name": "Bookshelf",
+    "texture": "bookshelf.png",
+    "durability": 100
+  },
+  {
+    "id": 46,
+    "name": "Jukebox",
+    "texture": "jukebox.png",
+    "durability": 100
+  },
+  {
+    "id": 47,
     "name": "Crafting Table",
     "texture": "craftingtable.png",
     "durability": 100
   },
   {
-    "id": 29,
+    "id": 48,
     "name": "Furnace",
     "texture": "furnace.png",
     "durability": 100

@@ -47,12 +47,25 @@
         </div>
     </div>
     <div class="overlay hidden">
-        <div class="buttons" style="display: flex; flex-direction: column; left:5px; position: fixed; top: 5px; width: 100px; height: 50px;">
+        <div class="buttons">
             <button onclick="window.scene.setTime(0.9)" >Set Day</button>
             <button onclick="window.scene.setTime(0.1)">Set Night</button>
             <button onclick="window.inventory.clear()">Clear inventory</button>
         </div>
-
+        <div class="shortcuts">
+            <p> 
+                <b>Shortcuts</b> <br>
+            </p>
+            <hr>
+            <p>
+                <b>Shift</b> - sprint <br>
+                <b>E</b> - open inventory <br>
+                <b>R</b> - Restart player position <br>
+                <b>Space</b> - Jump <br>
+                <b>F5</b> - Player camera <br>
+                <b>Shift + click on block</b> - move block from selected bar to inventory
+            </p>
+        </div>
         <div class="inventory">
             <div class="items">
                 <p>Inventory</p>

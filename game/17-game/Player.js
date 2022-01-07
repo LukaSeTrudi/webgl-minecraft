@@ -27,7 +27,7 @@ export class Player extends Node {
 
   distanceTo(other) {
     // Block
-    return Math.sqrt(Math.pow(this.translation[0] - other.translation[0], 2) + Math.pow(this.translation[1] - other.translation[1], 2) + Math.pow(this.translation[2] - other.translation[2], 2));
+    return Math.sqrt(Math.pow(this.translation[0] - other.translation[0], 2) + Math.pow(this.translation[1]+1 - other.translation[1], 2) + Math.pow(this.translation[2] - other.translation[2], 2));
   }
 
   update(dt) {
@@ -215,6 +215,7 @@ export class Player extends Node {
             } else {
               if (selectedItem && selectedItem.item.block) {
                 const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last]});
+                if(this.distanceTo(block) <= 1) return;
                 this.scene.addNode(block);
                 this.scene.cl.insertBlock(block);
                 this.inventory.subSelected();

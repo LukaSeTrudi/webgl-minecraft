@@ -5,8 +5,8 @@
       "translation": [2, 18, 0],
       "extra": "player",
       "aabb": {
-        "min": [-0.45, -0.5, -0.45],
-        "max": [0.45, 1.4, 0.45]
+        "min": [-0.35, -0.5, -0.35],
+        "max": [0.35, 1.4, 0.35]
       },
       "collidable":true,
       "children": [{

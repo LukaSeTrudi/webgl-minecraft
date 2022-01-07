@@ -160,6 +160,12 @@ body, html {
     padding: 0;
     margin: 0;
 }
+
+.specialP{
+    display: flex;
+    justify-content: center;
+}
+
 .buttons{
     display: flex;
     flex-direction: column;
@@ -182,7 +188,7 @@ body, html {
 }
 
 .buttons button:hover{
-    opacity: 1;
+    background-color: rgba(26, 26, 26, 0.822);
 }
 
 .start {

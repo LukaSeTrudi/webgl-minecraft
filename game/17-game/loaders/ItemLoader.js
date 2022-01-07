@@ -13,7 +13,7 @@ export class ItemLoader {
           item.block = blocks.find(x => x.id == item.block);
         }
         itemsObj.push(new Item(item, item.stack));
-        childs += '<div class="item" onclick="window.inventory.addToItems('+item.id+')"><img src="./common/items/'+item.preview+'"></div>'
+        childs += '<div class="item tooltip" onclick="window.inventory.addToItems('+item.id+')"><img src="./common/items/'+item.preview+'"><span class="tooltiptext">'+item.name+'</span></div>'
       })
       ItemFactory.items = itemsObj;
       document.querySelector(".allItems").innerHTML = childs;

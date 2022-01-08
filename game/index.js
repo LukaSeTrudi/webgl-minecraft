@@ -1,14 +1,14 @@
 
-import { Application } from "../../common/engine/Application.js";
+import { Application } from "../common/engine/Application.js";
 
 import { Renderer } from "./Renderer.js";
-import { Physics } from "./Physics.js";
-import { Camera } from "./Camera.js";
+import { Physics } from "./player/Physics.js";
+import { Camera } from "./world/Camera.js";
 import { SceneLoader } from "./loaders/SceneLoader.js";
 import { SceneBuilder } from "./SceneBuilder.js";
 import { BlockLoader } from './loaders/BlockLoader.js';
 import { ItemLoader } from "./loaders/ItemLoader.js";
-import { Player } from "./Player.js";
+import { Player } from "./player/Player.js";
 import { Block } from "./world/Block.js";
 import { Chunk } from "./chunks/Chunk.js";
 import { Sound } from "./sound/Sound.js";
@@ -32,10 +32,10 @@ class App extends Application {
       }
     })
 
-    this.blocks = await new BlockLoader().loadBlocks("/game/17-game/structure/blocks.json");
-    this.items = await new ItemLoader().loadItems("/game/17-game/structure/items.json", this.blocks);
+    this.blocks = await new BlockLoader().loadBlocks("/game/structure/blocks.json");
+    this.items = await new ItemLoader().loadItems("/game/structure/items.json", this.blocks);
     this.sound = new Sound();
-    await this.load("/game/17-game/scene.json");
+    await this.load("/game/structure/scene.json");
     document.querySelector('.loading').classList.add("hidden");
   }
   

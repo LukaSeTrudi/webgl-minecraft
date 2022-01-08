@@ -1,11 +1,11 @@
-import { Mesh } from "./Mesh.js";
+import { Mesh } from "./structure/Mesh.js";
 
-import { Node } from "./Node.js";
-import { Model } from "./Model.js";
-import { Camera } from "./Camera.js";
+import { Node } from "./structure/Node.js";
+import { Model } from "./structure/Model.js";
+import { Camera } from "./world/Camera.js";
 
 import { Scene } from "./Scene.js";
-import { Player } from "./Player.js";
+import { Player } from "./player/Player.js";
 import { Block } from "./world/Block.js";
 import { ChunkLoader } from "./chunks/ChunkLoader.js";
 

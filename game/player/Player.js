@@ -1,11 +1,12 @@
-import { Node } from "./Node.js";
+import { Node } from "../structure/Node.js";
 import { vec3, mat4, quat } from "../../lib/gl-matrix-module.js";
 
-import { Utils } from "./Utils.js";
-import { Block } from "./world/Block.js";
-import { BlockLoader } from "./loaders/BlockLoader.js";
-import { Inventory } from "./player/Inventory.js";
-import { PlayerAnimation } from "./animations/PlayerAnimation.js";
+import { Utils } from "../Utils.js";
+import { Block } from "../world/Block.js";
+import { BlockLoader } from "../loaders/BlockLoader.js";
+import { Inventory } from "./Inventory.js";
+import { PlayerAnimation } from "../animations/PlayerAnimation.js";
+
 export class Player extends Node {
   constructor(options) {
     super(options);

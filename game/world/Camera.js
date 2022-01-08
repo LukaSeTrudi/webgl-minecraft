@@ -1,8 +1,8 @@
 import { vec3, mat4 } from "../../lib/gl-matrix-module.js";
 
-import { Utils } from "./Utils.js";
-import { Node } from "./Node.js";
-import { CAMERA_SETTINGS } from "./settings/CameraSettings.js";
+import { Utils } from "../Utils.js";
+import { Node } from "../structure/Node.js";
+import { CAMERA_SETTINGS } from "../settings/CameraSettings.js";
 
 export class Camera extends Node {
   constructor(options) {

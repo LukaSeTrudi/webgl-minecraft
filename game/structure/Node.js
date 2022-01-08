@@ -1,6 +1,6 @@
 import { vec3, mat4, quat } from '../../lib/gl-matrix-module.js';
 
-import { Utils } from './Utils.js';
+import { Utils } from '../Utils.js';
 
 export class Node {
 

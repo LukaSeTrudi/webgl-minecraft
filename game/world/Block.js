@@ -1,4 +1,4 @@
-import { Model } from "../Model.js";
+import { Model } from "../structure/Model.js";
 
 export class Block extends Model {
   static originalMesh = null;

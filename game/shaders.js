@@ -48,7 +48,7 @@ void main() {
     vTexCoord = aTexCoord;
 
     vec3 N = (uViewModel * vec4(aNormal, 0)).xyz;
-    vec3 L = normalize(sunPosition - vertexPosition);
+    vec3 L = normalize(vertexPosition - sunPosition);
 
     float diffuse = 0.1 * max(0.0, dot(L, N)) * uSunPercent;
     float sunColor = max(sideLight,uSunLight*uSunPercent);

@@ -1,4 +1,4 @@
-import { Mesh } from "../Mesh.js";
+import { Mesh } from "../structure/Mesh.js";
 import { Block } from "../world/Block.js";
 
 export class BlockLoader {

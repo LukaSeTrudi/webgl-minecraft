@@ -1,6 +1,6 @@
 import { vec3, mat4 } from '../../lib/gl-matrix-module.js';
 import { Player } from './Player.js';
-import { Block } from './world/Block.js';
+import { Block } from '../world/Block.js';
 
 export class Physics {
 

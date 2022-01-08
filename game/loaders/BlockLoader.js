@@ -18,7 +18,7 @@ export class BlockLoader {
         _blocks.push(new Block(blockMesh, texture, blocks[i]));
       }
       Block.grassTexture = _blocks[0].image;
-      Block.stoneTexture = _blocks[4].image;
+      Block.stoneTexture = _blocks[6].image;
 
       Block.oakTexture = _blocks[14].image;
       Block.leavesTexture = _blocks[26].image;

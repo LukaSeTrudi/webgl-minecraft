@@ -14,6 +14,7 @@ body, html {
     overflow: hidden;
 }
 .middle {
+    width: 20px;
     z-index: 10;
     position: absolute;
     left: 50%;
@@ -198,14 +199,42 @@ body, html {
     z-index: 999;
     top: 0;
     left: 0;
-    background: gray;
+    background-image: url("/common/images/sejvivdtree2.png");
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .start button {
-    width: 200px;
-    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    width: 300px;
+    height: 60px;
+    color: white;
+    background-color: rgb(38, 113, 156);
+}
+
+.startButtons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #24242448;
+    border-radius: 5px;
+    height: 160px;
+    width: 100%;
+    margin: auto;
+}
+
+
+.start button:hover {
+    background-color: rgb(25, 85, 121);
 }
 
 .allItems .item {

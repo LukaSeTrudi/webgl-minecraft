@@ -23,6 +23,7 @@ export class Player extends Node {
     this.keys = {};
     this.disabled = false;
     this.holding = false;
+    this.flying = false;
     this.inventory = new Inventory(this);
     this.animation = new PlayerAnimation(this);
   }
@@ -59,16 +60,24 @@ export class Player extends Node {
     }
 
     if (this.sprinting) {
-      // 2: update velocity
       vec3.scale(acc, acc, c.sprintSpeed);
     } else {
       vec3.scale(acc, acc, c.walkSpeed);
     }
 
-    vec3.scaleAndAdd(acc, acc, up, this.verticalMomentum);
+    if (this.flying) {
+      if (this.keys["Space"]) {
+        vec3.scaleAndAdd(acc, acc, up, 1 * this.ascentSpeed);
+      }
+      if (this.keys["ShiftLeft"]) {
+        vec3.scaleAndAdd(acc, acc, up, -1 * this.ascentSpeed);
+      }
+    } else {
+      vec3.scaleAndAdd(acc, acc, up, this.verticalMomentum);
 
-    if (acc[1] < 0) {
-      acc[1] = this.grounded ? 0 : acc[1];
+      if (acc[1] < 0) {
+        acc[1] = this.grounded ? 0 : acc[1];
+      }
     }
 
     c.velocity = acc;
@@ -109,7 +118,7 @@ export class Player extends Node {
   }
 
   checkHolding() {
-    if(this.armPlace == null) return;
+    if (this.armPlace == null) return;
     let item = this.inventory.getSelectedItem();
     if (item == null) {
       this.holding = false;
@@ -137,7 +146,7 @@ export class Player extends Node {
       this.verticalMomentum = this.jumpForce;
     }
 
-    if (this.keys["ShiftLeft"]) {
+    if (this.keys["ControlLeft"]) {
       this.sprinting = true;
     } else {
       this.sprinting = false;
@@ -153,6 +162,11 @@ export class Player extends Node {
     if (this.keys["KeyE"]) {
       this.inventory.toggleInventory();
       this.keys["KeyE"] = false;
+    }
+
+    if (this.keys["KeyF"]) {
+      this.flying = !this.flying;
+      this.keys["KeyF"] = false;
     }
   }
 
@@ -256,5 +270,5 @@ Player.defaults = {
   sprintSpeed: 7,
   jumpForce: 5,
   gravity: -9.8,
-  acceleration: 20,
+  ascentSpeed: 8
 };

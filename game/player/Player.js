@@ -69,7 +69,7 @@ export class Player extends Node {
       if (this.keys["Space"]) {
         vec3.scaleAndAdd(acc, acc, up, 1 * this.ascentSpeed);
       }
-      if (this.keys["ShiftLeft"]) {
+      if (this.keys["KeyC"]) {
         vec3.scaleAndAdd(acc, acc, up, -1 * this.ascentSpeed);
       }
     } else {
@@ -146,7 +146,7 @@ export class Player extends Node {
       this.verticalMomentum = this.jumpForce;
     }
 
-    if (this.keys["ControlLeft"]) {
+    if (this.keys["ShiftLeft"]) {
       this.sprinting = true;
     } else {
       this.sprinting = false;

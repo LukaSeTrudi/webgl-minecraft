@@ -15,11 +15,9 @@ import { Sound } from "./sound/Sound.js";
 
 class App extends Application {
   async start() {
-
     window.startGame = () => { this.enableCamera() };
 
     const gl = this.gl;
-
     this.renderer = new Renderer(gl);
     this.time = Date.now();
     this.startTime = this.time;
@@ -37,9 +35,10 @@ class App extends Application {
     this.blocks = await new BlockLoader().loadBlocks("/game/17-game/structure/blocks.json");
     this.items = await new ItemLoader().loadItems("/game/17-game/structure/items.json", this.blocks);
     this.sound = new Sound();
-    this.load("/game/17-game/scene.json");
+    await this.load("/game/17-game/scene.json");
+    document.querySelector('.loading').classList.add("hidden");
   }
-
+  
   async load(uri) {
     const scene = await new SceneLoader().loadScene(uri);
     const builder = new SceneBuilder(scene);

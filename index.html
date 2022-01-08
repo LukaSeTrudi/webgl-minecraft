@@ -21,7 +21,7 @@
     
     <audio autoplay id="otherSound">
     </audio>
-
+    
     <div class="middle">+
     </div>
     <div class="middleBottom">
@@ -152,17 +152,26 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="allItems">
             
         </div>
     </div>
-
+    
     <div class="start">
         <div class="startButtons">
             <button onclick="startGame()">Start game</button>
-            <button onclick="startGame()">Options</button>
+            <div style="display: flex; margin: 5px;">
+                <label for="musicRange" style="color: white;">Music volume </label> <input onchange="window.sound.changeMusicVolume(this.value)" id="musicRange" name="musicRange" type="range">
+            </div>
+            <div style="display: flex;">
+                <label for="soundRange" style="color: white;">Sound Effects volume </label> <input onchange="window.sound.changeSoundVolume(this.value)" id="soundRange" name="soundRange" type="range">
+            </div>
         </div>
+    </div>
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading game... Please wait</p>
     </div>
 </body>
 </html>

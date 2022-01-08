@@ -4,9 +4,18 @@ export class Sound {
     this.ambientDom.src = "common/sound/ambient.mp3";
     this.ambientDom.volume = 0.5;
 
+    window.sound = this;
     this.soundEffects = document.querySelector("#otherSound");
     this.soundEffects.volume = 0.5;
 
+  }
+
+  changeMusicVolume(e) {
+    this.ambientDom.volume = parseInt(e) / 100;
+  }
+
+  changeSoundVolume(e) {
+    this.soundEffects.volume = parseInt(e) / 100;
   }
 
   toggleAmbient(val) {

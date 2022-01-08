@@ -172,7 +172,7 @@ body, html {
     flex-direction: column;
     left: 5px;
     position: fixed;
-    top: 180px;
+    top: 200px;
     width: auto;
 
 }
@@ -225,10 +225,10 @@ body, html {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #24242448;
+    background-color: #242424;
     border-radius: 5px;
     height: 160px;
-    width: 100%;
+    width: 400px;
     margin: auto;
 }
 
@@ -298,4 +298,33 @@ body, html {
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent transparent rgb(41, 41, 41);
+  }
+
+
+  .loading {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: #cccc;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+  }
+
+  .spinner {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }

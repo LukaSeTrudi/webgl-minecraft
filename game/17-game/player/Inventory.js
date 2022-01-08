@@ -2,10 +2,11 @@ import { ItemFactory } from "../world/ItemFactory.js";
 
 export class Inventory {
   
-  constructor() {
+  constructor(player) {
     this.allItems = new Array(36).fill(null);
     this.selectedIndex = 0;
     this.openedInventory = false;
+    this.player = player;
     window.inventory = this;
     this.changeSelectedIndex(0);
     this.initDom();
@@ -62,6 +63,7 @@ export class Inventory {
   }
 
   changeSelectedIndex(ind) {
+    this.player.checkHolding();
     let elements = document.getElementsByClassName('selected');
     while(elements.length > 0) {
       elements[0].classList.remove('selected');
@@ -110,6 +112,7 @@ export class Inventory {
   }
 
   drawItems() {
+    this.player.checkHolding();
     this.allItems.forEach((item, index) => {
       let dom = document.querySelector('.selectionItem'+index);
       let html = '<div></div>';

@@ -76,7 +76,16 @@
           "rotation": [0, 0, 0],
           "scale": [0.2, 0.8, 0.3],
           "extra": "arm2"
-          
+        },
+        {
+          "type": "model",
+          "mesh": 0,
+          "texture": 6,
+          "visible": false,
+          "translation": [0.4, 0.4, -0.7],
+          "rotation": [0, 1.5, 0],
+          "scale": [0.3, 0.3, 0.3],
+          "extra": "armPlaceholder"
         }
       ]
     }

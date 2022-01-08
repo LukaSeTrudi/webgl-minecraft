@@ -90,8 +90,7 @@ export class Renderer {
         matrixStack.push(mat4.clone(matrix));
         mat4.mul(matrix, matrix, node.transform);
         this.prepareNode(node);
-
-        if (node.gl && node.gl.vao && node.extra != "raycast") {
+        if (node.gl && node.gl.vao && node.extra != "raycast" && node.visible) {
           if(node.isPlayer){
             gl.useProgram(playerProgram.program);
             gl.uniformMatrix4fv(playerProgram.uniforms.uProjection, false, camera.projection);

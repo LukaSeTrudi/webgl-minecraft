@@ -21,13 +21,14 @@ export class Player extends Node {
     this.wheelHandler = this.wheelHandler.bind(this);
     this.keys = {};
     this.disabled = false;
-    this.inventory = new Inventory();
+    this.holding = false;
+    this.inventory = new Inventory(this);
     this.animation = new PlayerAnimation(this);
   }
 
   distanceTo(other) {
     // Block
-    return Math.sqrt(Math.pow(this.translation[0] - other.translation[0], 2) + Math.pow(this.translation[1]+1 - other.translation[1], 2) + Math.pow(this.translation[2] - other.translation[2], 2));
+    return Math.sqrt(Math.pow(this.translation[0] - other.translation[0], 2) + Math.pow(this.translation[1] + 1 - other.translation[1], 2) + Math.pow(this.translation[2] - other.translation[2], 2));
   }
 
   update(dt) {
@@ -93,16 +94,31 @@ export class Player extends Node {
 
   wheelHandler(e) {
     let newIndex = this.inventory.selectedIndex;
-    if(e.deltaY > 0) {
+    if (e.deltaY > 0) {
       newIndex = (newIndex + 1) % 9;
     } else {
-      if(newIndex == 0) {
+      if (newIndex == 0) {
         newIndex = 8;
       } else {
         newIndex--;
       }
     }
     this.inventory.changeSelectedIndex(newIndex);
+    this.checkHolding();
+  }
+
+  checkHolding() {
+    if(this.armPlace == null) return;
+    let item = this.inventory.getSelectedItem();
+    if (item == null) {
+      this.holding = false;
+      this.armPlace.visible = false;
+    } else {
+      this.holding = true;
+      this.armPlace.visible = true;
+      this.armPlace.image = item.item.block.image;
+      this.armPlace.gl = null;
+    }
   }
 
   handleKeys() {
@@ -129,6 +145,7 @@ export class Player extends Node {
     for (let i = 0; i < 9; i++) {
       if (this.keys["Digit" + (i + 1)]) {
         this.inventory.changeSelectedIndex(i);
+        this.checkHolding();
       }
     }
 
@@ -172,7 +189,6 @@ export class Player extends Node {
     }
   }
 
-
   keydownHandler(e) {
     e.preventDefault();
     this.keys[e.code] = true;
@@ -214,12 +230,13 @@ export class Player extends Node {
               this.sound.breaking(clicked);
             } else {
               if (selectedItem && selectedItem.item.block) {
-                const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last]});
-                if(this.distanceTo(block) <= 1) return;
+                const block = new Block(selectedItem.item.block.doubleSide ? Block.doubleSide : Block.originalMesh, selectedItem.item.block.image, { ...selectedItem.item.block, translation: [...last] });
+                if (this.distanceTo(block) <= 1) return;
                 this.scene.addNode(block);
                 this.scene.cl.insertBlock(block);
                 this.inventory.subSelected();
                 this.sound.placing(selectedItem.item.block);
+                this.checkHolding();
               }
             }
           }

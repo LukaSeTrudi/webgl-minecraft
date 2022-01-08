@@ -147,14 +147,14 @@
   },
   {
     "id": 24,
-    "name": "Dark Oak Log",
-    "texture": "dark_oak_log.png",
+    "name": "Dark Oak Plank",
+    "texture": "dark_oak_plank.png",
     "durability": 100
   },
   {
     "id": 25,
-    "name": "Acacia Log",
-    "texture": "acacia_log.png",
+    "name": "Acacia Plank",
+    "texture": "acacia_plank.png",
     "durability": 100
   },
   {
@@ -232,7 +232,7 @@
   {
     "id": 38,
     "name": "Melon",
-    "texture": "hay.png",
+    "texture": "melon.png",
     "durability": 100
   },
   {

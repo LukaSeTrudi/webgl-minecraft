@@ -13,7 +13,7 @@
           "type": "model",
           "extra": "head",
           "mesh": 0,
-          "texture": 6,
+          "texture": 3,
           "translation": [0, 1.05, 0],
           "rotation": [0, 0, 0],
           "scale": [0.5, 0.5, 0.5],
@@ -29,14 +29,14 @@
             "type": "model",
             "extra": "raycast",
             "mesh": 0,
-            "texture": 6,
+            "texture": 3,
             "scale": [0.1, 0.1, 0.1]
           }]
         },
         {
           "type": "model",
           "mesh": 0,
-          "texture": 3,
+          "texture": 0,
           "translation": [0, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.6, 0.8, 0.4]
@@ -44,7 +44,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 5,
+          "texture": 2,
           "translation": [-0.15, -0.2, 0],
           "rotation": [0, 0, 0],
           "scale": [0.3, 0.6, 0.3],
@@ -53,7 +53,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 5,
+          "texture": 2,
           "translation": [0.15, -0.2, 0],
           "rotation": [0, 0, 0],
           "scale": [0.3, 0.6, 0.3],
@@ -62,7 +62,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 4,
+          "texture": 1,
           "translation": [-0.4, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.2, 0.8, 0.3],
@@ -71,7 +71,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 4,
+          "texture": 1,
           "translation": [0.4, 0.4, 0],
           "rotation": [0, 0, 0],
           "scale": [0.2, 0.8, 0.3],
@@ -80,7 +80,7 @@
         {
           "type": "model",
           "mesh": 0,
-          "texture": 6,
+          "texture": 3,
           "visible": false,
           "translation": [0.4, 0.4, -0.7],
           "rotation": [0, 1.5, 0],
@@ -91,16 +91,12 @@
     }
   ],
   "textures": [
-    "../../common/images/crate-diffuse.png",
-    "../../common/images/grass.png",
-    "../../common/textures/bitmap.png",
     "../../common/textures/body.png",
     "../../common/textures/hand.png",
     "../../common/textures/leg.png",
     "../../common/textures/head.png"
   ],
   "meshes": [
-    "../../common/models/cube.json",
-    "../../common/models/pyramid.json"
+    "../../common/models/cube.json"
   ]
 }
